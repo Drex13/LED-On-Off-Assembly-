@@ -72,4 +72,4 @@ ContadorInterno:   DS 1   ; Reserva 1 byte de memoria para el contador interno
 
     END            ; Fin del código
 
-
+;prueba 2 del git, este codigo es del profesor
