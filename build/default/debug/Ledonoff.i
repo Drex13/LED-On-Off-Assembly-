@@ -5479,7 +5479,7 @@ Loop:
     CALL Retardo_1s;
     CALL Retardo_1s;
     CALL Retardo_1s;
-    CALL Retardo_1s;
+
 
     BCF LATB, 0 ; Apaga LED en ((PORTB) and 0FFh), 0, a
     CALL Retardo_1s ; Espera 1s

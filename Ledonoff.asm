@@ -38,7 +38,7 @@ Loop:
     CALL    Retardo_1s;
     CALL    Retardo_1s;
     CALL    Retardo_1s;
-    CALL    Retardo_1s;
+
     
     BCF     LATB, 0        ; Apaga LED en RB0
     CALL    Retardo_1s     ; Espera 1s
