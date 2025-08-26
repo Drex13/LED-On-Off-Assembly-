@@ -47,20 +47,21 @@ __Hudata_bank3 0 0 ABS 0
 __Ludata_bank3 0 0 ABS 0
 %segments
 udata 60 61 RAM 60 1
-main_code 7FC0 7FFF CODE 7FC0 0
-resetVec 7FBC 7FBF CODE 7FBC 0
+main_code 7FBC 7FFF CODE 7FBC 0
+resetVec 7FB8 7FBB CODE 7FB8 0
 %locals
-build/default/debug/Ledonoff.o
+build/default/production/Ledonoff.o
 Ledonoff.asm
-23 7FBC 0 CODE 0
+23 7FB8 0 CODE 0
 Ledonoff.asm
-32 7FC0 0 CODE 0
-33 7FC2 0 CODE 0
-36 7FC4 0 CODE 0
-37 7FC6 0 CODE 0
-38 7FCA 0 CODE 0
-39 7FCE 0 CODE 0
-40 7FD2 0 CODE 0
+32 7FBC 0 CODE 0
+33 7FBE 0 CODE 0
+36 7FC0 0 CODE 0
+37 7FC2 0 CODE 0
+38 7FC6 0 CODE 0
+39 7FCA 0 CODE 0
+40 7FCE 0 CODE 0
+41 7FD2 0 CODE 0
 43 7FD6 0 CODE 0
 44 7FD8 0 CODE 0
 45 7FDC 0 CODE 0

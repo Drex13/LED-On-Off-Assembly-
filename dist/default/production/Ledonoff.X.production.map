@@ -4,11 +4,11 @@ Linker command line:
 
 -W-3 \
   --edf=D:/mplab/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\pic\dat\20250117225543_en.msgs \
-  -cs -h+dist/default/debug\Ledonoff.X.debug.sym \
-  --cmf=dist/default/debug\Ledonoff.X.debug.cmf -z -Q18F4550 \
-  -oC:\Users\MIPC\AppData\Local\Temp\xcAse9g.\driver_tmp_3.o \
+  -cs -h+dist/default/production\Ledonoff.X.production.sym \
+  --cmf=dist/default/production\Ledonoff.X.production.cmf -z -Q18F4550 \
+  -oC:\Users\MIPC\AppData\Local\Temp\xcAsd80.\driver_tmp_3.o \
   --fixupoverflow=error -ver=XC8 PIC(R) Assembler --fixupoverflow=lstwarn \
-  -Mdist/default/debug/Ledonoff.X.debug.map -E1 --acfsm=1493 \
+  -Mdist/default/production/Ledonoff.X.production.map -E1 --acfsm=1493 \
   -ACODE=00h-07FFFh -ACONST=00h-07FFFh -ASMALLCONST=0800h-08FFhx120 \
   -AMEDIUMCONST=0800h-07FFFh -ACOMRAM=00h-05Fh -AABS1=00h-07FFh \
   -ABIGRAM=00h-07FFh -ARAM=060h-0FFh,0100h-01FFhx7 -ABANK0=060h-0FFh \
@@ -16,7 +16,7 @@ Linker command line:
   -ABANK4=0400h-04FFh -ABANK5=0500h-05FFh -ABANK6=0600h-06FFh \
   -ABANK7=0700h-07FFh -ASFR=0F60h-0FFFh -ABIGSFR=0F60h-0FFFh \
   -AIDLOC=0200000h-0200007h -AEEDATA=0F00000h-0F000FFh \
-  build/default/debug/Ledonoff.o 
+  build/default/production/Ledonoff.o 
 
 Object code version is 3.11
 
@@ -25,16 +25,16 @@ Machine type is 18F4550
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-build/default/debug/Ledonoff.o
+build/default/production/Ledonoff.o
                 config                           300000   300000        E        0       4
-                main_code                          7FC0     7FC0       40     3FE0       0
-                resetVec                           7FBC     7FBC        4     3FDE       0
+                main_code                          7FBC     7FBC       44     3FDE       0
+                resetVec                           7FB8     7FB8        4     3FDC       0
                 udata                                60       60        2       60       1
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
-                main_code                          7FC0     7FC0       40         0
-                resetVec                           7FBC     7FBC        4         0
+                main_code                          7FBC     7FBC       44         0
+                resetVec                           7FB8     7FB8        4         0
 
         CLASS   CONST          
 
@@ -83,8 +83,8 @@ TOTAL           Name                               Link     Load   Length     Sp
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class
 
                 udata                          000060  000002  000062        60       1  RAM     
-                resetVec                       007FBC  000004  007FC0      3FDE       0  CODE    
-                main_code                      007FC0  000040  008000      3FE0       0  CODE    
+                resetVec                       007FB8  000004  007FBC      3FDC       0  CODE    
+                main_code                      007FBC  000044  008000      3FDE       0  CODE    
 
 
 UNUSED ADDRESS RANGES
@@ -100,15 +100,15 @@ UNUSED ADDRESS RANGES
         BANK7            000700-0007FF              100
         BIGRAM           000000-0007FF              800
         BIGSFR           000F60-000FFF               A0
-        CODE             000000-007FBB             7FBC
+        CODE             000000-007FB7             7FB8
         COMRAM           000000-00005F               60
-        CONST            000000-007FBB             7FBC
+        CONST            000000-007FB7             7FB8
         EEDATA           F00000-F000FF              100
         IDLOC            200000-200007                8
-        MEDIUMCONST      000800-007FBB             77BC
+        MEDIUMCONST      000800-007FB7             77B8
         RAM              000062-0007FF              100
         SFR              000F60-000FFF               A0
-        SMALLCONST       000800-007FBB              100
+        SMALLCONST       000800-007FB7              100
 
                                   Symbol Table
 

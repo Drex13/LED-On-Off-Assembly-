@@ -11,10 +11,10 @@
 # All addresses and the length are given in unqualified hexadecimal
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
-$build/default/debug/Ledonoff.o
+$build/default/production/Ledonoff.o
 udata RAM 1 60 60 2 1 1
-resetVec CODE 0 7FBC 7FBC 4 1 2
-main_code CODE 0 7FC0 7FC0 40 1 2
+resetVec CODE 0 7FB8 7FB8 4 1 2
+main_code CODE 0 7FBC 7FBC 44 1 2
 config CONFIG 4 300000 300000 E 1 1
 # %UNUSED Section
 # This section enumerates the unused ranges of each CLASS. Each entry
@@ -32,15 +32,15 @@ BANK4 400-4FF 1
 BANK5 500-5FF 1
 BANK6 600-6FF 1
 BANK7 700-7FF 1
-CONST 0-7FBB 1
+CONST 0-7FB7 1
 IDLOC 200000-200007 1
-SMALLCONST 800-7FBB 1
-CODE 0-7FBB 1
+SMALLCONST 800-7FB7 1
+CODE 0-7FB7 1
 BIGRAM 0-7FF 1
 BIGSFR F60-FFF 1
 COMRAM 0-5F 1
 EEDATA F00000-F000FF 1
-MEDIUMCONST 800-7FBB 1
+MEDIUMCONST 800-7FB7 1
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
 # The beginning of the section is indicated by %LINETAB.
@@ -54,14 +54,15 @@ MEDIUMCONST 800-7FBB 1
 # are in ascending order of addresses.
 # All other numeric values are in decimal.
 %LINETAB
-$build/default/debug/Ledonoff.o
-7FC0 main_code CODE >32:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
-7FC2 main_code CODE >33:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
-7FC4 main_code CODE >36:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
-7FC6 main_code CODE >37:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
-7FCA main_code CODE >38:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
-7FCE main_code CODE >39:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
-7FD2 main_code CODE >40:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
+$build/default/production/Ledonoff.o
+7FBC main_code CODE >32:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
+7FBE main_code CODE >33:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
+7FC0 main_code CODE >36:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
+7FC2 main_code CODE >37:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
+7FC6 main_code CODE >38:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
+7FCA main_code CODE >39:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
+7FCE main_code CODE >40:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
+7FD2 main_code CODE >41:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
 7FD6 main_code CODE >43:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
 7FD8 main_code CODE >44:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
 7FDC main_code CODE >45:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
@@ -78,7 +79,7 @@ $build/default/debug/Ledonoff.o
 7FF8 main_code CODE >69:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
 7FFA main_code CODE >70:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
 7FFE main_code CODE >72:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
-7FBC resetVec CODE >23:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
+7FB8 resetVec CODE >23:C:\Users\MIPC\MPLABXProjects\Ledonoff.X\Ledonoff.asm
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -106,7 +107,7 @@ __Hudata_bank7 0 0 ABS 0 udata_bank7 -
 __L__absolute__ 0 0 ABS 0 __absolute__ -
 __LresetVec 0 0 ABS 0 resetVec -
 __HresetVec 0 0 ABS 0 resetVec -
-isa$xinst 0 0 ABS 0 - build/default/debug/Ledonoff.o
+isa$xinst 0 0 ABS 0 - build/default/production/Ledonoff.o
 __Hedata 0 0 ABS 0 edata -
 __Hudata 0 0 ABS 0 udata -
 __Hconfig 30000E 0 CONFIG 4 config -
@@ -120,7 +121,7 @@ __S0 8000 0 ABS 0 - -
 __S1 62 0 ABS 0 - -
 __S3 0 0 ABS 0 - -
 __Lconfig 0 0 CONFIG 4 config -
-isa$std 1 0 ABS 0 - build/default/debug/Ledonoff.o
+isa$std 1 0 ABS 0 - build/default/production/Ledonoff.o
 __Lspace_0 0 0 ABS 0 - -
 __Lspace_1 0 0 ABS 0 - -
 __Lspace_3 0 0 ABS 0 - -
@@ -163,8 +164,8 @@ __Ludata_acs 0 0 ABS 0 udata_acs -
 # All other numeric quantities are in decimal.
 %SEGMENTS
 udata 1 60 60 2 1
-resetVec 0 7FBC 7FBC 4 1
-main_code 0 7FC0 7FC0 40 1
+resetVec 0 7FB8 7FB8 4 1
+main_code 0 7FBC 7FBC 44 1
 # %NOTES Section
 # This section contains data of all the note-psects.  The beginning of the section
 # is indicated by %NOTES. The first line indicates the name and decimal

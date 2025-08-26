@@ -38,7 +38,7 @@ Loop:
     CALL    Retardo_1s;
     CALL    Retardo_1s;
     CALL    Retardo_1s;
-
+    CALL    Retardo_1s;
     
     BCF     LATB, 0        ; Apaga LED en RB0
     CALL    Retardo_1s     ; Espera 1s
@@ -51,7 +51,7 @@ Loop:
     ;===============================================
 
 Retardo_1s:
-    MOVLW   25          ; Cargar el valor 25 en el registro W (contador externo)
+    MOVLW   125          ; Cargar el valor 25 en el registro W (contador externo)
     MOVWF   ContadorExterno  ; Guardar el valor en la variable ContadorExterno
 
 LoopExterno:
