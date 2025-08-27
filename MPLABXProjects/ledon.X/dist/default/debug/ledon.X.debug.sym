@@ -1,6 +1,6 @@
 __S0 8000 0 ABS 0
 __S1 62 0 ABS 0
-__S3 0 0 ABS 0
+__S3 F00004 0 ABS 0
 __Hudata_bank4 0 0 ABS 0
 __Ludata_bank4 0 0 ABS 0
 __Hconfig 30000E 0 CONFIG 4
@@ -10,8 +10,6 @@ __Ludata_acs 0 0 ABS 0
 isa$xinst 0 0 ABS 0
 __Hudata_bank5 0 0 ABS 0
 __Ludata_bank5 0 0 ABS 0
-__HresetVec 0 0 ABS 0
-__LresetVec 0 0 ABS 0
 __Hcode 0 0 ABS 0
 __Lcode 0 0 ABS 0
 __Hdata 0 0 ABS 0
@@ -35,7 +33,7 @@ __Hspace_1 62 0 ABS 0
 __Lspace_1 0 0 ABS 0
 __Hudata_bank7 0 0 ABS 0
 __Ludata_bank7 0 0 ABS 0
-__Hspace_3 0 0 ABS 0
+__Hspace_3 F00004 0 ABS 0
 __Lspace_3 0 0 ABS 0
 __Hspace_4 60000E 0 ABS 0
 __Lspace_4 0 0 ABS 0
@@ -46,13 +44,11 @@ __Lmain_code 0 0 ABS 0
 __Hudata_bank3 0 0 ABS 0
 __Ludata_bank3 0 0 ABS 0
 %segments
+edata F00000 F00003 EEDATA F00000 3
 udata 60 61 RAM 60 1
 main_code 7FD6 7FFF CODE 7FD6 0
-resetVec 7FD2 7FD5 CODE 7FD2 0
 %locals
 build/default/debug/main.o
-main.s
-23 7FD2 0 CODE 0
 main.s
 32 7FD6 0 CODE 0
 33 7FD8 0 CODE 0

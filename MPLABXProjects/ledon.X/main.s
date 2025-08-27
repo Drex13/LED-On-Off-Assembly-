@@ -18,9 +18,9 @@
     ; Vectores de Inicio
     ;===============================================
 
-    PSECT  resetVec, class=CODE, reloc=2  ; Sección para el vector de reinicio
-    ORG     0x00                          ; Dirección de inicio
-    GOTO    Inicio                         ; Saltar a la rutina de inicio
+    ; Selecciona INTOSC = 8 MHz (IRCF=111) y usa el interno (SCS=10)
+    MOVLW   0x72        ; 0b01110010
+    MOVWF   OSCCON
 
     ;===============================================
     ; Código Principal

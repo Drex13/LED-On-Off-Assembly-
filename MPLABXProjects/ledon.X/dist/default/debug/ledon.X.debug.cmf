@@ -12,8 +12,8 @@
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
 $build/default/debug/main.o
+edata EEDATA 3 F00000 F00000 4 1 1
 udata RAM 1 60 60 2 1 1
-resetVec CODE 0 7FD2 7FD2 4 1 2
 main_code CODE 0 7FD6 7FD6 2A 1 2
 config CONFIG 4 300000 300000 E 1 1
 # %UNUSED Section
@@ -32,15 +32,15 @@ BANK4 400-4FF 1
 BANK5 500-5FF 1
 BANK6 600-6FF 1
 BANK7 700-7FF 1
-CONST 0-7FD1 1
+CONST 0-7FD5 1
 IDLOC 200000-200007 1
-SMALLCONST 800-7FD1 1
-CODE 0-7FD1 1
+SMALLCONST 800-7FD5 1
+CODE 0-7FD5 1
 BIGRAM 0-7FF 1
 BIGSFR F60-FFF 1
 COMRAM 0-5F 1
-EEDATA F00000-F000FF 1
-MEDIUMCONST 800-7FD1 1
+EEDATA F00004-F000FF 1
+MEDIUMCONST 800-7FD5 1
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
 # The beginning of the section is indicated by %LINETAB.
@@ -72,7 +72,6 @@ $build/default/debug/main.o
 7FF8 main_code CODE >60:C:\Users\ASSUS\MPLABXProjects\ledon.X\main.s
 7FFA main_code CODE >61:C:\Users\ASSUS\MPLABXProjects\ledon.X\main.s
 7FFE main_code CODE >63:C:\Users\ASSUS\MPLABXProjects\ledon.X\main.s
-7FD2 resetVec CODE >23:C:\Users\ASSUS\MPLABXProjects\ledon.X\main.s
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -87,7 +86,7 @@ $build/default/debug/main.o
 %SYMTAB
 __Hspace_0 8000 0 ABS 0 - -
 __Hspace_1 62 0 ABS 0 - -
-__Hspace_3 0 0 ABS 0 - -
+__Hspace_3 F00004 0 ABS 0 - -
 __Hspace_4 60000E 0 ABS 0 - -
 __Hudata_bank0 0 0 ABS 0 udata_bank0 -
 __Hudata_bank1 0 0 ABS 0 udata_bank1 -
@@ -98,8 +97,6 @@ __Hudata_bank5 0 0 ABS 0 udata_bank5 -
 __Hudata_bank6 0 0 ABS 0 udata_bank6 -
 __Hudata_bank7 0 0 ABS 0 udata_bank7 -
 __L__absolute__ 0 0 ABS 0 __absolute__ -
-__LresetVec 0 0 ABS 0 resetVec -
-__HresetVec 0 0 ABS 0 resetVec -
 isa$xinst 0 0 ABS 0 - build/default/debug/main.o
 __Hedata 0 0 ABS 0 edata -
 __Hudata 0 0 ABS 0 udata -
@@ -112,7 +109,7 @@ __Lcode 0 0 ABS 0 code -
 __Ldata 0 0 ABS 0 data -
 __S0 8000 0 ABS 0 - -
 __S1 62 0 ABS 0 - -
-__S3 0 0 ABS 0 - -
+__S3 F00004 0 ABS 0 - -
 __Lconfig 0 0 CONFIG 4 config -
 isa$std 1 0 ABS 0 - build/default/debug/main.o
 __Lspace_0 0 0 ABS 0 - -
@@ -156,8 +153,8 @@ __Ludata_acs 0 0 ABS 0 udata_acs -
 # and size are in units of delta. The file address is in units of bytes.
 # All other numeric quantities are in decimal.
 %SEGMENTS
+edata 3 F00000 F00000 4 1
 udata 1 60 60 2 1
-resetVec 0 7FD2 7FD2 4 1
 main_code 0 7FD6 7FD6 2A 1
 # %NOTES Section
 # This section contains data of all the note-psects.  The beginning of the section

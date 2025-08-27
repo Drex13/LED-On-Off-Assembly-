@@ -6,7 +6,7 @@ Linker command line:
   --edf=C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\pic\dat\20250117225543_en.msgs \
   -cs -h+dist/default/debug\ledon.X.debug.sym \
   --cmf=dist/default/debug\ledon.X.debug.cmf -z -Q18F4550 \
-  -oC:\Users\ASSUS\AppData\Local\Temp\xcAskr0.\driver_tmp_3.o \
+  -oC:\Users\ASSUS\AppData\Local\Temp\xcAsi7o.\driver_tmp_3.o \
   --fixupoverflow=error -ver=XC8 PIC(R) Assembler --fixupoverflow=lstwarn \
   -Mdist/default/debug/ledon.X.debug.map -E1 -ACODE=00h-07FFFh \
   -ACONST=00h-07FFFh -ASMALLCONST=0800h-08FFhx120 \
@@ -28,13 +28,12 @@ Machine type is 18F4550
 build/default/debug/main.o
                 config                           300000   300000        E        0       4
                 main_code                          7FD6     7FD6       2A     3FEB       0
-                resetVec                           7FD2     7FD2        4     3FE9       0
+                edata                            F00000   F00000        4   F00000       3
                 udata                                60       60        2       60       1
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
                 main_code                          7FD6     7FD6       2A         0
-                resetVec                           7FD2     7FD2        4         0
 
         CLASS   CONST          
 
@@ -74,6 +73,7 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   IDLOC          
 
         CLASS   EEDATA         
+                edata                            F00000   F00000        4         3
 
         CLASS   CONFIG         
                 config                           300000   300000        E         4
@@ -83,8 +83,8 @@ TOTAL           Name                               Link     Load   Length     Sp
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class
 
                 udata                          000060  000002  000062        60       1  RAM     
-                resetVec                       007FD2  000004  007FD6      3FE9       0  CODE    
                 main_code                      007FD6  00002A  008000      3FEB       0  CODE    
+                edata                          F00000  000004  F00004    F00000       3  EEDATA  
 
 
 UNUSED ADDRESS RANGES
@@ -100,32 +100,31 @@ UNUSED ADDRESS RANGES
         BANK7            000700-0007FF              100
         BIGRAM           000000-0007FF              800
         BIGSFR           000F60-000FFF               A0
-        CODE             000000-007FD1             7FD2
+        CODE             000000-007FD5             7FD6
         COMRAM           000000-00005F               60
-        CONST            000000-007FD1             7FD2
-        EEDATA           F00000-F000FF              100
+        CONST            000000-007FD5             7FD6
+        EEDATA           F00004-F000FF               FC
         IDLOC            200000-200007                8
-        MEDIUMCONST      000800-007FD1             77D2
+        MEDIUMCONST      000800-007FD5             77D6
         RAM              000062-0007FF              100
         SFR              000F60-000FFF               A0
-        SMALLCONST       000800-007FD1              100
+        SMALLCONST       000800-007FD5              100
 
                                   Symbol Table
 
 __H__absolute__ __absolute__ 000000  __Hcode         code         000000
 __Hconfig       config       30000E  __Hdata         data         000000
 __Hedata        edata        000000  __Hmain_code    main_code    000000
-__HresetVec     resetVec     000000  __Hspace_0      (abs)        008000
-__Hspace_1      (abs)        000062  __Hspace_3      (abs)        000000
-__Hspace_4      (abs)        60000E  __Hudata        udata        000000
-__Hudata_acs    udata_acs    000000  __Hudata_bank0  udata_bank0  000000
-__Hudata_bank1  udata_bank1  000000  __Hudata_bank2  udata_bank2  000000
-__Hudata_bank3  udata_bank3  000000  __Hudata_bank4  udata_bank4  000000
-__Hudata_bank5  udata_bank5  000000  __Hudata_bank6  udata_bank6  000000
-__Hudata_bank7  udata_bank7  000000  __L__absolute__ __absolute__ 000000
-__Lcode         code         000000  __Lconfig       config       000000
-__Ldata         data         000000  __Ledata        edata        000000
-__Lmain_code    main_code    000000  __LresetVec     resetVec     000000
+__Hspace_0      (abs)        008000  __Hspace_1      (abs)        000062
+__Hspace_3      (abs)        F00004  __Hspace_4      (abs)        60000E
+__Hudata        udata        000000  __Hudata_acs    udata_acs    000000
+__Hudata_bank0  udata_bank0  000000  __Hudata_bank1  udata_bank1  000000
+__Hudata_bank2  udata_bank2  000000  __Hudata_bank3  udata_bank3  000000
+__Hudata_bank4  udata_bank4  000000  __Hudata_bank5  udata_bank5  000000
+__Hudata_bank6  udata_bank6  000000  __Hudata_bank7  udata_bank7  000000
+__L__absolute__ __absolute__ 000000  __Lcode         code         000000
+__Lconfig       config       000000  __Ldata         data         000000
+__Ledata        edata        000000  __Lmain_code    main_code    000000
 __Lspace_0      (abs)        000000  __Lspace_1      (abs)        000000
 __Lspace_3      (abs)        000000  __Lspace_4      (abs)        000000
 __Ludata        udata        000000  __Ludata_acs    udata_acs    000000
@@ -134,5 +133,5 @@ __Ludata_bank2  udata_bank2  000000  __Ludata_bank3  udata_bank3  000000
 __Ludata_bank4  udata_bank4  000000  __Ludata_bank5  udata_bank5  000000
 __Ludata_bank6  udata_bank6  000000  __Ludata_bank7  udata_bank7  000000
 __S0            (abs)        008000  __S1            (abs)        000062
-__S3            (abs)        000000  isa$std         (abs)        000001
+__S3            (abs)        F00004  isa$std         (abs)        000001
 isa$xinst       (abs)        000000  
