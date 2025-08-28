@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=led1.asm
+SOURCEFILES_QUOTED_IF_SPACED=led.s
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/led1.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/led1.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/led.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/led.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/led1.o
+OBJECTFILES=${OBJECTDIR}/led.o
 
 # Source Files
-SOURCEFILES=led1.asm
+SOURCEFILES=led.s
 
 
 
@@ -89,21 +89,21 @@ FINAL_IMAGE_NAME_MINUS_EXTENSION=${DISTDIR}/led.X.${IMAGE_TYPE}
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: pic-as-assembler
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/led1.o: led1.asm  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/led.o: led.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/led1.o 
+	@${RM} ${OBJECTDIR}/led.o 
 	${MP_AS} -mcpu=PIC18F4550 -c \
-	-o ${OBJECTDIR}/led1.o \
-	led1.asm \
+	-o ${OBJECTDIR}/led.o \
+	led.s \
 	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -misa=std -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 else
-${OBJECTDIR}/led1.o: led1.asm  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/led.o: led.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/led1.o 
+	@${RM} ${OBJECTDIR}/led.o 
 	${MP_AS} -mcpu=PIC18F4550 -c \
-	-o ${OBJECTDIR}/led1.o \
-	led1.asm \
+	-o ${OBJECTDIR}/led.o \
+	led.s \
 	  -mdfp="${DFP_DIR}/xc8"  -misa=std -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 endif
