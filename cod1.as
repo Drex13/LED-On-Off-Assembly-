@@ -5,8 +5,9 @@
 
         LIST    P=18F4550
         INCLUDE <P18F4550.INC>
-        CONFIG  OSC=HS, WDT=OFF, LVP=OFF
+        CONFIG  OSC=HS, WDT=OFF, LVP=OFF, FOSC = INTOSCIO_EC
 
+        PSECT  resetVec, class=CODE, reloc=2
         ORG     0x00
         GOTO    MAIN
 
@@ -14,6 +15,15 @@
 ; PROGRAMA PRINCIPAL
 ; -----------------------------------------
 MAIN:
+PSECT  main_code, class=CODE, reloc=2
+
+         ; Configuración de OSCCON (8 MHz, oscilador interno)
+    BSF     OSCCON, IRCF2
+    BSF     OSCCON, IRCF1
+    BSF     OSCCON, IRCF0    ; IRCF = 111 → 8 MHz
+    BSF     OSCCON, SCS0
+    BCF     OSCCON, SCS1     ; SCS = 01 → Oscilador Interno
+
         CLRF    LATC          ; limpiar LATC
         CLRF    TRISC         ; puerto C como salida
 
