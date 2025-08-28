@@ -1,85 +1,96 @@
-;=========================================================
-; Código en Assembler para PIC18F4550
-; Parpadeo de LED en RB0 cada 1 segundo
-; Usa retardos sin interrupciones ni Timer0
-; Frecuencia: 8 MHz (Oscilador Interno)
-; Ensamblador: MPLAB XC8 3.0
-;=========================================================
+CONFIG  FOSC = INTOSCIO_EC
+    CONFIG  FCMEN = OFF
+    CONFIG  IESO = OFF
+    CONFIG  WDT = OFF
+    CONFIG  PBADEN = OFF
+    CONFIG  LVP = OFF
 
-    #include <xc.inc>   ; Incluir definiciones del ensamblador para PIC18F4550
+#include <xc.inc>
 
-    ; Configuración de bits de configuración (Fuses)
-    CONFIG  FOSC = INTOSCIO_EC   ; Usa el oscilador interno a 8 MHz
-    CONFIG  WDT = OFF            ; Deshabilitar el Watchdog Timer
-    CONFIG  LVP = OFF            ; Deshabilitar la programación en bajo voltaje
-    CONFIG  PBADEN = OFF         ; Configurar los pines de PORTB como digitales
+    PSECT resetVec, class=CODE, abs, delta=2
+    ORG 0x0000
+    GOTO Inicio
 
-    ;===============================================
-    ; Vectores de Inicio
-    ;===============================================
+    PSECT udata_acs
+ContadorExterno: DS 1
+ContadorInterno: DS 1
 
-    PSECT  resetVec, class=CODE, reloc=2  ; Sección para el vector de reinicio
-    ORG     0x00                          ; Dirección de inicio
-    GOTO    Inicio                         ; Saltar a la rutina de inicio
-
-    ;===============================================
-    ; Código Principal
-    ;===============================================
-    
-    PSECT  main_code, class=CODE, reloc=2  ; Sección de código principal
-
+    PSECT main_code, class=CODE, reloc=2
 Inicio:
-    CLRF    TRISB       ; Configurar PORTB como salida (0 = salida, 1 = entrada)
-    CLRF    LATB        ; Apagar todos los pines de PORTB (LED apagado inicialmente)
+    MOVLW 0x72
+    MOVWF OSCCON
+    CLRF OSCTUNE
+    MOVLW 0x0F
+    MOVWF ADCON1
+    MOVLW 0x07
+    MOVWF CMCON
+    CLRF TRISB
+    BCF LATB,0
 
 Loop:
-    BSF     LATB, 0     ; Alternar el estado del LED en RB0 (si está encendido, lo apaga y viceversa)
-    CALL    Retardo_1s; Llamar a la rutina de retardo de 1 segundo
-    CALL    Retardo_1s;
-    CALL    Retardo_1s;
-    CALL    Retardo_1s;
-    CALL    Retardo_1s;
-    
-    BCF     LATB, 0        ; Apaga LED en RB0
-    CALL    Retardo_1s     ; Espera 1s
-    CALL    Retardo_1s     ; Espera 2s en total
-    
-    GOTO    Loop        ; Repetir el proceso de parpadeo en bucle infinito
-
-    ;===============================================
-    ; Subrutina de Retardo de 1 Segundo (Aprox.)
-    ;===============================================
+    BSF LATB,0
+    CALL Retardo_1s
+    CALL Retardo_1s
+    CALL Retardo_1s
+    CALL Retardo_1s
+    CALL Retardo_1s
+    BCF LATB,0
+    CALL Retardo_1s
+    CALL Retardo_1s
+    GOTO Loop
 
 Retardo_1s:
-    MOVLW   125          ; Cargar el valor 25 en el registro W (contador externo)
-    MOVWF   ContadorExterno  ; Guardar el valor en la variable ContadorExterno
+    MOVLW 150
+    MOVWF ContadorExterno
+R1s_B0:
+    CALL Delay_1ms
+    DECFSZ ContadorExterno,F
+    GOTO R1s_B0
 
-LoopExterno:
-    MOVLW   250         ; Cargar el valor 250 en el registro W (contador interno)
-    MOVWF   ContadorInterno  ; Guardar el valor en la variable ContadorInterno
+    MOVLW 150
+    MOVWF ContadorExterno
+R1s_B1:
+    CALL Delay_1ms
+    DECFSZ ContadorExterno,F
+    GOTO R1s_B1
 
-LoopInterno:
-    NOP                 ; No hacer nada (consume un ciclo de instrucción)
-    NOP                 ; No hacer nada (consume otro ciclo)
-    NOP                 ; No hacer nada (consume otro ciclo)
-    
-    DECFSZ  ContadorInterno, F  ; Decrementar ContadorInterno, si es cero, salta la siguiente instrucción
-    GOTO    LoopInterno         ; Si no es cero, repetir el bucle interno
+    MOVLW 150
+    MOVWF ContadorExterno
+R1s_B2:
+    CALL Delay_1ms
+    DECFSZ ContadorExterno,F
+    GOTO R1s_B2
 
-    DECFSZ  ContadorExterno, F  ; Decrementar ContadorExterno, si es cero, salta la siguiente instrucción
-    GOTO    LoopExterno         ; Si no es cero, repetir el bucle externo
+    MOVLW 150
+    MOVWF ContadorExterno
+R1s_B3:
+    CALL Delay_1ms
+    DECFSZ ContadorExterno,F
+    GOTO R1s_B3
+    RETURN
 
-    RETURN              ; Retornar al programa principal después del retardo
+Delay_1ms:
+    MOVLW 225
+    MOVWF ContadorInterno
+D1ms_L1:
+    NOP
+    NOP
+    DECFSZ ContadorInterno,F
+    GOTO D1ms_L1
 
-    ;===============================================
-    ; Definición de Variables
-    ;===============================================
+    MOVLW 225
+    MOVWF ContadorInterno
+D1ms_L2:
+    NOP
+    NOP
+    DECFSZ ContadorInterno,F
+    GOTO D1ms_L2
 
-    PSECT udata  ; Sección de datos sin inicializar (variables en RAM)
-ContadorExterno:   DS 1   ; Reserva 1 byte de memoria para el contador externo
-ContadorInterno:   DS 1   ; Reserva 1 byte de memoria para el contador interno
+    NOP
+    NOP
+    RETURN
 
-    END            ; Fin del código
+    END
 
 
 
