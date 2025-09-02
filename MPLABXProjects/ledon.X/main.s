@@ -1,95 +1,129 @@
 ;=========================================================
-; PIC18F4550  | XC8 pic-as (v3.x)
-; LED en RB0: ON 5000 ms, OFF 2000 ms
-; Oscilador interno 8 MHz
+; PIC18F4550 | XC8 pic-as (.s)
+; LED RB0: ON 5 s, OFF 2 s  | INTOSC = 8 MHz
 ;=========================================================
 
-            #include <xc.inc>
-
-;----------------------------
-; CONFIG (fuses)
-;----------------------------
-    CONFIG  FOSC   = INTOSCIO_EC   ; Oscilador interno, RA6/RA7 como I/O
+; ---- FUSES (deben ir antes del include) ----
+    CONFIG  FOSC   = INTOSCIO_EC
+    CONFIG  FCMEN  = OFF
+    CONFIG  IESO   = OFF
     CONFIG  WDT    = OFF
     CONFIG  PBADEN = OFF
     CONFIG  LVP    = OFF
 
-;----------------------------
-; Vector de reset
-;----------------------------
-    PSECT   resetVec,class=CODE,reloc=2
+#include <xc.inc>
+
+;=========================================================
+; Vector de RESET (usar sección ABS para evitar errores)
+;=========================================================
+    PSECT   resetVec, class=CODE, abs, delta=2
     ORG     0x0000
     GOTO    Inicio
 
-;----------------------------
-; Código principal
-;----------------------------
-    PSECT   main_code,class=CODE,reloc=2
+;=========================================================
+; Variables (ACCESS para evitar selección de banco)
+;=========================================================
+    PSECT   udata_acs
+ContadorExterno:   DS 1    ; usado por Retardo_1s (bloques de 250 ms)
+ContadorInterno:   DS 1    ; usado por Delay_1ms (bucles internos)
+
+;=========================================================
+; Programa
+;=========================================================
+    PSECT   main_code, class=CODE, reloc=2
 
 Inicio:
-    ; Forzar 8 MHz en OSCCON
-    MOVLW   0x72
+    ; ----- Reloj: INTOSC = 8 MHz, usar INTOSC como fuente -----
+    MOVLW   0x72            ; IRCF=111 (8MHz), SCS=10 (INTOSC)
     MOVWF   OSCCON
+    CLRF    OSCTUNE         ; sin ajuste fino (opcional)
 
-    ; PORTB como salida
+    ; Opcional: forzar todo digital / comparadores OFF
+    MOVLW   0x0F
+    MOVWF   ADCON1
+    MOVLW   0x07
+    MOVWF   CMCON
+
+    ; E/S: PORTB salida, LED RB0 apagado
     CLRF    TRISB
-    BCF     LATB,0          ; LED OFF inicial
-
-MainLoop:
-    ; ----- LED ON 5000 ms -----
-    BSF     LATB,0
-    CALL    Retardo_5s
-
-    ; ----- LED OFF 2000 ms -----
     BCF     LATB,0
-    CALL    Retardo_2s
 
-    GOTO    MainLoop
+Loop:
+    ; ---------- LED ON 5 s ----------
+    BSF     LATB,0
+    CALL    Retardo_1s
+    CALL    Retardo_1s
+    CALL    Retardo_1s
+    CALL    Retardo_1s
+    CALL    Retardo_1s
 
-;------------------------------------------
-; Retardos (hardcodeados con bucles)
-; Nota: aquí muestro ejemplos con llamadas repetidas
-;       a Delay_1s, así no necesitas variables.
-;------------------------------------------
-Retardo_5s:
-    CALL Delay_1s
-    CALL Delay_1s
-    CALL Delay_1s
-    CALL Delay_1s
-    CALL Delay_1s
+    ; ---------- LED OFF 2 s ----------
+    BCF     LATB,0
+    CALL    Retardo_1s
+    CALL    Retardo_1s
+
+    GOTO    Loop
+
+;=========================================================
+; Retardos
+;   - Delay_1ms: ~1.000 ms @ Fosc=8 MHz (Fcy=2 MHz ? 0.5 us/instr)
+;   - Retardo_1s: 4 bloques de 250 × Delay_1ms = 1000 ms
+;     (usa solo ContadorExterno; Delay_1ms usa ContadorInterno)
+;=========================================================
+
+; --- 1 segundo exacto por software (4 × 250 ms) ---
+Retardo_1s:
+    MOVLW   250
+    MOVWF   ContadorExterno
+R1s_B0:
+    CALL    Delay_1ms
+    DECFSZ  ContadorExterno, F
+    GOTO    R1s_B0
+
+    MOVLW   250
+    MOVWF   ContadorExterno
+R1s_B1:
+    CALL    Delay_1ms
+    DECFSZ  ContadorExterno, F
+    GOTO    R1s_B1
+
+    MOVLW   250
+    MOVWF   ContadorExterno
+R1s_B2:
+    CALL    Delay_1ms
+    DECFSZ  ContadorExterno, F
+    GOTO    R1s_B2
+
+    MOVLW   250
+    MOVWF   ContadorExterno
+R1s_B3:
+    CALL    Delay_1ms
+    DECFSZ  ContadorExterno, F
+    GOTO    R1s_B3
+
     RETURN
 
-Retardo_2s:
-    CALL Delay_1s
-    CALL Delay_1s
-    RETURN
+; --- 1 ms @ 8 MHz (?2000 ciclos) ---
+; Dos bucles de 200 iteraciones (~999 + ~999 ciclos) + 2 NOP = ~2000
+Delay_1ms:
+    MOVLW   200
+    MOVWF   ContadorInterno
+D1ms_L1:
+    NOP
+    NOP
+    DECFSZ  ContadorInterno, F
+    GOTO    D1ms_L1          ; ~999 ciclos
 
-;------------------------------------------
-; Delay_1s
-;   1 segundo aprox. (llama 1000 veces a Delay_1ms)
-;------------------------------------------
-Delay_1s:
-    MOVLW   D'250'       ; 250*4 = 1000 ms
-    MOVWF   R1
-D1s_loop:
-    CALL Delay_4ms       ; cada llamada ?4 ms
-    DECFSZ  R1,F
-    GOTO D1s_loop
-    RETURN
+    MOVLW   200
+    MOVWF   ContadorInterno
+D1ms_L2:
+    NOP
+    NOP
+    DECFSZ  ContadorInterno, F
+    GOTO    D1ms_L2          ; ~999 ciclos
 
-;------------------------------------------
-; Delay_4ms (?4ms @ 8 MHz)
-;------------------------------------------
-Delay_4ms:
-    ; Bucle calibrado (ejemplo)
-    MOVLW   D'250'
-    MOVWF   R2
-D4ms_loop:
+    NOP                       ; +2 ciclos ? ~2000 ciclos
     NOP
-    NOP
-    NOP
-    DECFSZ  R2,F
-    GOTO D4ms_loop
     RETURN
 
     END
