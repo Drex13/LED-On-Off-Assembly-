@@ -7,7 +7,7 @@
 # 1 "main.s" 2
 ;=========================================================
 ; PIC18F4550 | XC8 pic-as (.s)
-; LED RB0: ON 5 s, OFF 2 s | INTOSC = 8 MHz
+; LED RB0 y RB1: ON 5 s, OFF 2 s | INTOSC = 8 MHz
 ;=========================================================
 
 ; ---- FUSES (deben ir antes del include) ----
@@ -5458,51 +5458,54 @@ ENDM
 # 15 "main.s" 2
 
 ;=========================================================
-; Vector de RESET (usar sección ABS para evitar errores)
+; Vector de RESET
 ;=========================================================
     PSECT resetVec, class=CODE, abs, delta=2
     ORG 0x0000
     GOTO Inicio
 
 ;=========================================================
-; Variables (ACCESS para evitar selección de banco)
+; Variables
 ;=========================================================
     PSECT udata_acs
-ContadorExterno: DS 1 ; usado por Retardo_1s (bloques de 250 ms)
-ContadorInterno: DS 1 ; usado por Delay_1ms (bucles internos)
+ContadorExterno: DS 1
+ContadorInterno: DS 1
 
 ;=========================================================
-; Programa
+; Programa principal
 ;=========================================================
     PSECT main_code, class=CODE, reloc=2
 
 Inicio:
-    ; ----- Reloj: INTOSC = 8 MHz, usar INTOSC como fuente -----
-    MOVLW 0x72 ; IRCF=111 (8MHz), SCS=10 (INTOSC)
+    ; ----- Configuración reloj: 8 MHz -----
+    MOVLW 0x72
     MOVWF OSCCON
-    CLRF OSCTUNE ; sin ajuste fino (opcional)
+    CLRF OSCTUNE
 
-    ; Opcional: forzar todo digital / comparadores OFF
+    ; ----- Digital I/O -----
     MOVLW 0x0F
     MOVWF ADCON1
     MOVLW 0x07
     MOVWF CMCON
 
-    ; E/S: PORTB salida, LED ((PORTB) and 0FFh), 0, a apagado
+    ; ----- PORTB salida, LEDs OFF -----
     CLRF TRISB
     BCF LATB,0
+    BCF LATB,1
 
 Loop:
-    ; ---------- LED ON 5 s ----------
-    BSF LATB,0
+    ; ---------- LEDS ON 5 s ----------
+    BSF LATB,0 ; LED1 (((PORTB) and 0FFh), 0, a) ON
+    BSF LATB,1 ; LED2 (((PORTB) and 0FFh), 1, a) ON
     CALL Retardo_1s
     CALL Retardo_1s
     CALL Retardo_1s
     CALL Retardo_1s
     CALL Retardo_1s
 
-    ; ---------- LED OFF 2 s ----------
-    BCF LATB,0
+    ; ---------- LEDS OFF 2 s ----------
+    BCF LATB,0 ; LED1 (((PORTB) and 0FFh), 0, a) OFF
+    BCF LATB,1 ; LED2 (((PORTB) and 0FFh), 1, a) OFF
     CALL Retardo_1s
     CALL Retardo_1s
 
@@ -5510,12 +5513,7 @@ Loop:
 
 ;=========================================================
 ; Retardos
-; - Delay_1ms: ~1.000 ms @ Fosc=8 MHz (Fcy=2 MHz ? 0.5 us/instr)
-; - Retardo_1s: 4 bloques de 250 × Delay_1ms = 1000 ms
-; (usa solo ContadorExterno; Delay_1ms usa ContadorInterno)
 ;=========================================================
-
-; --- 1 segundo exacto por software (4 × 250 ms) ---
 Retardo_1s:
     MOVLW 250
     MOVWF ContadorExterno
@@ -5547,8 +5545,6 @@ R1s_B3:
 
     RETURN
 
-; --- 1 ms @ 8 MHz (?2000 ciclos) ---
-; Dos bucles de 200 iteraciones (~999 + ~999 ciclos) + 2 NOP = ~2000
 Delay_1ms:
     MOVLW 200
     MOVWF ContadorInterno
@@ -5556,7 +5552,7 @@ D1ms_L1:
     NOP
     NOP
     DECFSZ ContadorInterno, F
-    GOTO D1ms_L1 ; ~999 ciclos
+    GOTO D1ms_L1
 
     MOVLW 200
     MOVWF ContadorInterno
@@ -5564,9 +5560,9 @@ D1ms_L2:
     NOP
     NOP
     DECFSZ ContadorInterno, F
-    GOTO D1ms_L2 ; ~999 ciclos
+    GOTO D1ms_L2
 
-    NOP ; +2 ciclos ? ~2000 ciclos
+    NOP
     NOP
     RETURN
 
