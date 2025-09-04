@@ -1,9 +1,9 @@
 ;=========================================================
 ; PIC18F4550 | XC8 pic-as (.s)
-; LED RB0 y RB1: ON 5 s, OFF 2 s  | INTOSC = 8 MHz
+; LED RB0, RB1, RB2: ON 5 s, OFF 2 s  | INTOSC = 8 MHz
 ;=========================================================
 
-; ---- FUSES (deben ir antes del include) ----
+; ---- FUSES ----
     CONFIG  FOSC   = INTOSCIO_EC
     CONFIG  FCMEN  = OFF
     CONFIG  IESO   = OFF
@@ -48,11 +48,13 @@ Inicio:
     CLRF    TRISB
     BCF     LATB,0
     BCF     LATB,1
+    BCF     LATB,2
 
 Loop:
     ; ---------- LEDS ON 5 s ----------
     BSF     LATB,0      ; LED1 (RB0) ON
     BSF     LATB,1      ; LED2 (RB1) ON
+    BSF     LATB,2      ; LED3 (RB2) ON
     CALL    Retardo_1s
     CALL    Retardo_1s
     CALL    Retardo_1s
@@ -62,6 +64,7 @@ Loop:
     ; ---------- LEDS OFF 2 s ----------
     BCF     LATB,0      ; LED1 (RB0) OFF
     BCF     LATB,1      ; LED2 (RB1) OFF
+    BCF     LATB,2      ; LED3 (RB2) OFF
     CALL    Retardo_1s
     CALL    Retardo_1s
 
