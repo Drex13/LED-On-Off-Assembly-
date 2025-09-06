@@ -1,13 +1,11 @@
-
 #include <xc.inc>
 
-; Configuración de bits de configuración (Fuses)
-CONFIG  FOSC = INTOSCIO_EC   ; Oscilador interno a 8 MHz
-CONFIG  WDT = OFF            ; Watchdog Timer deshabilitado
-CONFIG  LVP = OFF            ; Programación en bajo voltaje deshabilitada
-CONFIG  PBADEN = OFF         ; Pines de PORTB como digitales
-CONFIG  MCLRE = ON           ; Pin MCLR habilitado
-
+; Configuracion
+CONFIG  FOSC = INTOSCIO_EC   
+CONFIG  WDT = OFF            
+CONFIG  LVP = OFF            
+CONFIG  PBADEN = OFF        
+CONFIG  MCLRE = ON           
 
 PSECT  resetVec, class=CODE, reloc=2
 ORG     0x00
@@ -30,16 +28,19 @@ MainLoop:
     BTFSS   PORTA, 0       
     GOTO    BotonPresionado 
     
-    ; Botón NO presionado - Apagar LED
+    ; Botón NO presionado - Apagar LEDs
     BCF     LATB, 0        
+    BCF     LATB, 1        
     GOTO    MainLoop       
 
 BotonPresionado:
     ; Ejecutar secuencia cuando botón está presionado
     BSF     LATB, 0        
+    BSF     LATB, 1        
     CALL    Retardo_5s     
     
     BCF     LATB, 0        
+    BCF     LATB, 1        
     CALL    Retardo_2s     
     
     ; Verificar si el botón sigue presionado
@@ -48,7 +49,7 @@ BotonPresionado:
     
     GOTO    BotonPresionado 
 
-; Subrutina de Retardo de 5 Segundos
+
 Retardo_5s:
     MOVLW   125            
     MOVWF   ContadorExterno
