@@ -1,48 +1,60 @@
-;=========================================================
-; Código en Assembler para PIC18F4550
-; LED ON: 5000ms, LED OFF: 2000ms
-; Frecuencia: 8 MHz (Oscilador Interno)
-; Ensamblador: MPLAB XC8 3.0
-;=========================================================
 
-#include 
+#include <xc.inc>
 
 ; Configuración de bits de configuración (Fuses)
 CONFIG  FOSC = INTOSCIO_EC   ; Oscilador interno a 8 MHz
 CONFIG  WDT = OFF            ; Watchdog Timer deshabilitado
 CONFIG  LVP = OFF            ; Programación en bajo voltaje deshabilitada
 CONFIG  PBADEN = OFF         ; Pines de PORTB como digitales
+CONFIG  MCLRE = ON           ; Pin MCLR habilitado
 
-; Vectores de Inicio
+
 PSECT  resetVec, class=CODE, reloc=2
 ORG     0x00
 GOTO    Inicio
 
-; Código Principal
 PSECT  main_code, class=CODE, reloc=2
 
 Inicio:
-    CLRF    TRISB       ; PORTB como salida
-    CLRF    LATB        ; Apagar todos los LEDs
+    ; Configurar puertos
+    CLRF    TRISB           
+    CLRF    LATB            
+    
+    ; Configurar PORTA (botón en RA0)
+    MOVLW   0x01           
+    MOVWF   TRISA
+    BSF     PORTA, 0       
 
 MainLoop:
-    ; Encender LED (5000ms)
-    BSF     LATB, 0     ; Encender LED en RB0
-    CALL    Retardo_5s  ; Esperar 5 segundos
+    ; Leer estado del botón (RA0)
+    BTFSS   PORTA, 0       
+    GOTO    BotonPresionado 
     
-    ; Apagar LED (2000ms)
-    BCF     LATB, 0     ; Apagar LED en RB0
-    CALL    Retardo_2s  ; Esperar 2 segundos
+    ; Botón NO presionado - Apagar LED
+    BCF     LATB, 0        
+    GOTO    MainLoop       
+
+BotonPresionado:
+    ; Ejecutar secuencia cuando botón está presionado
+    BSF     LATB, 0        
+    CALL    Retardo_5s     
     
-    GOTO    MainLoop    ; Repetir ciclo
+    BCF     LATB, 0        
+    CALL    Retardo_2s     
+    
+    ; Verificar si el botón sigue presionado
+    BTFSC   PORTA, 0       
+    GOTO    MainLoop       
+    
+    GOTO    BotonPresionado 
 
 ; Subrutina de Retardo de 5 Segundos
 Retardo_5s:
-    MOVLW   125         ; Contador externo para 5 segundos
+    MOVLW   125            
     MOVWF   ContadorExterno
 
 LoopExterno5s:
-    MOVLW   200         ; Contador interno
+    MOVLW   200            
     MOVWF   ContadorInterno
 
 LoopInterno5s:
@@ -50,6 +62,10 @@ LoopInterno5s:
     NOP
     NOP
     NOP
+    
+    ; Verificar botón durante el retardo
+    BTFSC   PORTA, 0       
+    RETURN                 
     
     DECFSZ  ContadorInterno, F
     GOTO    LoopInterno5s
@@ -61,11 +77,11 @@ LoopInterno5s:
 
 ; Subrutina de Retardo de 2 Segundos
 Retardo_2s:
-    MOVLW   50          ; Contador externo para 2 segundos
+    MOVLW   50             
     MOVWF   ContadorExterno
 
 LoopExterno2s:
-    MOVLW   200         ; Contador interno
+    MOVLW   200            
     MOVWF   ContadorInterno
 
 LoopInterno2s:
@@ -73,6 +89,10 @@ LoopInterno2s:
     NOP
     NOP
     NOP
+    
+    ; Verificar botón durante el retardo
+    BTFSC   PORTA, 0       
+    RETURN                 
     
     DECFSZ  ContadorInterno, F
     GOTO    LoopInterno2s

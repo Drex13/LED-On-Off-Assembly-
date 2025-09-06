@@ -1,32 +1,26 @@
-# 1 "led.s"
+# 1 "led1.asm"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 286 "<built-in>" 3
 # 1 "<command line>" 1
 # 1 "<built-in>" 2
-# 1 "led.s" 2
-;=========================================================
-; Código en Assembler para PIC18F4550
-; LED ON: 5000ms, LED OFF: 2000ms
-; Frecuencia: 8 MHz (Oscilador Interno)
-; Ensamblador: MPLAB XC8 3.0
-;=========================================================
+# 1 "led1.asm" 2
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.inc" 1 3
 
 
 
 
-# 1 "C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18.inc" 1 3
+# 1 "E:/MPLAB/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18.inc" 1 3
 
 
 
 
 
-# 1 "C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18_chip_select.inc" 1 3
-# 339 "C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18_chip_select.inc" 3
-# 1 "C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include\\proc/pic18f4550.inc" 1 3
-# 47 "C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include\\proc/pic18f4550.inc" 3
+# 1 "E:/MPLAB/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18_chip_select.inc" 1 3
+# 339 "E:/MPLAB/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18_chip_select.inc" 3
+# 1 "E:/MPLAB/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include\\proc/pic18f4550.inc" 1 3
+# 47 "E:/MPLAB/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include\\proc/pic18f4550.inc" 3
 SPPDATA equ 0F62h
 
 SPPDATA_DATA_POSN equ 0000h
@@ -5368,7 +5362,7 @@ TOSH equ 0FFEh
 
 
 TOSU equ 0FFFh
-# 6181 "C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include\\proc/pic18f4550.inc" 3
+# 6181 "E:/MPLAB/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include\\proc/pic18f4550.inc" 3
 psect udata_acs,class=COMRAM,space=1,noexec,lowdata
 
 psect udata_bank0,class=BANK0,space=1,noexec,lowdata
@@ -5383,8 +5377,8 @@ psect udata,class=RAM,space=1,noexec
 psect code,class=CODE,space=0,reloc=2
 psect data,class=CONST,space=0,reloc=2,noexec
 psect edata,class=EEDATA,space=3,delta=1,noexec
-# 340 "C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18_chip_select.inc" 2 3
-# 7 "C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18.inc" 2 3
+# 340 "E:/MPLAB/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18_chip_select.inc" 2 3
+# 7 "E:/MPLAB/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\\pic\\include/pic18.inc" 2 3
 
 
 
@@ -5449,57 +5443,62 @@ stk_offset SET 0
 auto_size SET 0
 ENDM
 # 6 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.inc" 2 3
-# 9 "led.s" 2
+# 3 "led1.asm" 2
 
-;---------------------------------------------------------
 ; Configuración de bits de configuración (Fuses)
-;---------------------------------------------------------
-CONFIG FOSC = INTOSCIO_EC ; Oscilador interno con ((PORTA) and 0FFh), 6, a y RA7 como I/O
+CONFIG FOSC = INTOSCIO_EC ; Oscilador interno a 8 MHz
 CONFIG WDT = OFF ; Watchdog Timer deshabilitado
 CONFIG LVP = OFF ; Programación en bajo voltaje deshabilitada
-CONFIG PBADEN = OFF ; Pines PORTB como digitales
+CONFIG PBADEN = OFF ; Pines de PORTB como digitales
+CONFIG MCLRE = ON ; Pin MCLR habilitado
 
-;---------------------------------------------------------
-; Vector de reset
-;---------------------------------------------------------
+
 PSECT resetVec, class=CODE, reloc=2
 ORG 0x00
 GOTO Inicio
 
-;---------------------------------------------------------
-; Código principal
-;---------------------------------------------------------
 PSECT main_code, class=CODE, reloc=2
 
 Inicio:
-    CLRF TRISB ; PORTB como salida
-    CLRF LATB ; Apagar todos los LEDs
+    ; Configurar puertos
+    CLRF TRISB
+    CLRF LATB
 
-    ; Configurar OSCCON para usar oscilador interno a 8 MHz
-    ; IRCF<2:0> = 111 (8 MHz), SCS<1:0> = 10 (oscilador interno)
-    MOVLW 0x72 ; 0111 0010
-    MOVWF OSCCON
+    ; Configurar PORTA (botón en ((PORTA) and 0FFh), 0, a)
+    MOVLW 0x01
+    MOVWF TRISA
+    BSF PORTA, 0
 
 MainLoop:
-    ; Encender LED (5000 ms)
-    BSF LATB, 0 ; Encender LED en ((PORTB) and 0FFh), 0, a
-    CALL Retardo_5s ; Esperar 5 segundos
+    ; Leer estado del botón (((PORTA) and 0FFh), 0, a)
+    BTFSS PORTA, 0
+    GOTO BotonPresionado
 
-    ; Apagar LED (2000 ms)
-    BCF LATB, 0 ; Apagar LED en ((PORTB) and 0FFh), 0, a
-    CALL Retardo_2s ; Esperar 2 segundos
+    ; Botón NO presionado - Apagar LED
+    BCF LATB, 0
+    GOTO MainLoop
 
-    GOTO MainLoop ; Repetir ciclo
+BotonPresionado:
+    ; Ejecutar secuencia cuando botón está presionado
+    BSF LATB, 0
+    CALL Retardo_5s
 
-;---------------------------------------------------------
-; Subrutina de Retardo de 5 segundos (aproximado)
-;---------------------------------------------------------
+    BCF LATB, 0
+    CALL Retardo_2s
+
+    ; Verificar si el botón sigue presionado
+    BTFSC PORTA, 0
+    GOTO MainLoop
+
+    GOTO BotonPresionado
+
+; Subrutina de Retardo de 5 Segundos
 Retardo_5s:
-    MOVLW 125 ; Contador externo para 5 segundos
+    MOVLW 125
     MOVWF ContadorExterno
 
 LoopExterno5s:
-    MOVLW 200 ; Contador interno
+    MOVLW 200
     MOVWF ContadorInterno
 
 LoopInterno5s:
@@ -5507,6 +5506,10 @@ LoopInterno5s:
     NOP
     NOP
     NOP
+
+    ; Verificar botón durante el retardo
+    BTFSC PORTA, 0
+    RETURN
 
     DECFSZ ContadorInterno, F
     GOTO LoopInterno5s
@@ -5516,15 +5519,13 @@ LoopInterno5s:
 
     RETURN
 
-;---------------------------------------------------------
-; Subrutina de Retardo de 2 segundos (aproximado)
-;---------------------------------------------------------
+; Subrutina de Retardo de 2 Segundos
 Retardo_2s:
-    MOVLW 50 ; Contador externo para 2 segundos
+    MOVLW 50
     MOVWF ContadorExterno
 
 LoopExterno2s:
-    MOVLW 200 ; Contador interno
+    MOVLW 200
     MOVWF ContadorInterno
 
 LoopInterno2s:
@@ -5532,6 +5533,10 @@ LoopInterno2s:
     NOP
     NOP
     NOP
+
+    ; Verificar botón durante el retardo
+    BTFSC PORTA, 0
+    RETURN
 
     DECFSZ ContadorInterno, F
     GOTO LoopInterno2s
@@ -5541,9 +5546,7 @@ LoopInterno2s:
 
     RETURN
 
-;---------------------------------------------------------
 ; Variables
-;---------------------------------------------------------
 PSECT udata
 ContadorExterno: DS 1
 ContadorInterno: DS 1
