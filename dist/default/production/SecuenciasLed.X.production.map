@@ -6,7 +6,7 @@ Linker command line:
   --edf=D:/mplab/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\pic\dat\20250117225543_en.msgs \
   -cs -h+dist/default/production\SecuenciasLed.X.production.sym \
   --cmf=dist/default/production\SecuenciasLed.X.production.cmf -z -Q18F4550 \
-  -oC:\Users\MIPC\AppData\Local\Temp\xcAs50o.\driver_tmp_3.o \
+  -oC:\Users\MIPC\AppData\Local\Temp\xcAsr0.\driver_tmp_3.o \
   --fixupoverflow=error -ver=XC8 PIC(R) Assembler --fixupoverflow=lstwarn \
   -Mdist/default/production/SecuenciasLed.X.production.map -E1 --acfsm=1493 \
   -ACODE=00h-07FFFh -ACONST=00h-07FFFh -ASMALLCONST=0800h-08FFhx120 \
@@ -27,7 +27,7 @@ Machine type is 18F4550
                 Name                               Link     Load   Length Selector   Space Scale
 build/default/production/SecuenciasLed.o
                 config                           300000   300000        E        0       4
-                edata                            F00000   F00000       50   F00000       3
+                edata                            F00000   F00000       B4   F00000       3
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
@@ -69,7 +69,7 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   IDLOC          
 
         CLASS   EEDATA         
-                edata                            F00000   F00000       50         3
+                edata                            F00000   F00000       B4         3
 
         CLASS   CONFIG         
                 config                           300000   300000        E         4
@@ -78,7 +78,7 @@ TOTAL           Name                               Link     Load   Length     Sp
 
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class
 
-                edata                          F00000  000050  F00050    F00000       3  EEDATA  
+                edata                          F00000  0000B4  F000B4    F00000       3  EEDATA  
 
 
 UNUSED ADDRESS RANGES
@@ -97,7 +97,7 @@ UNUSED ADDRESS RANGES
         CODE             000000-007FFF             8000
         COMRAM           000000-00005F               60
         CONST            000000-007FFF             8000
-        EEDATA           F00050-F000FF               B0
+        EEDATA           F000B4-F000FF               4C
         IDLOC            200000-200007                8
         MEDIUMCONST      000800-007FFF             7800
         RAM              000060-0007FF              100
@@ -109,7 +109,7 @@ UNUSED ADDRESS RANGES
 __H__absolute__ __absolute__ 000000  __Hcode         code         000000
 __Hconfig       config       30000E  __Hdata         data         000000
 __Hedata        edata        000000  __Hspace_0      (abs)        000000
-__Hspace_1      (abs)        000000  __Hspace_3      (abs)        F00050
+__Hspace_1      (abs)        000000  __Hspace_3      (abs)        F000B4
 __Hspace_4      (abs)        60000E  __Hudata        udata        000000
 __Hudata_acs    udata_acs    000000  __Hudata_bank0  udata_bank0  000000
 __Hudata_bank1  udata_bank1  000000  __Hudata_bank2  udata_bank2  000000
@@ -126,5 +126,5 @@ __Ludata_bank2  udata_bank2  000000  __Ludata_bank3  udata_bank3  000000
 __Ludata_bank4  udata_bank4  000000  __Ludata_bank5  udata_bank5  000000
 __Ludata_bank6  udata_bank6  000000  __Ludata_bank7  udata_bank7  000000
 __S0            (abs)        000000  __S1            (abs)        000000
-__S3            (abs)        F00050  isa$std         (abs)        000001
+__S3            (abs)        F000B4  isa$std         (abs)        000001
 isa$xinst       (abs)        000000  
