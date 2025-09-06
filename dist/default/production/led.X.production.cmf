@@ -11,7 +11,7 @@
 # All addresses and the length are given in unqualified hexadecimal
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
-$build/default/debug/led1.o
+$build/default/production/led1.o
 udata RAM 1 60 60 2 1 1
 resetVec CODE 0 7F8C 7F8C 4 1 2
 main_code CODE 0 7F90 7F90 70 1 2
@@ -54,7 +54,7 @@ MEDIUMCONST 800-7F8B 1
 # are in ascending order of addresses.
 # All other numeric values are in decimal.
 %LINETAB
-$build/default/debug/led1.o
+$build/default/production/led1.o
 7F90 main_code CODE >20:C:\Users\migue\MPLABXProjects\led.X\led1.asm
 7F92 main_code CODE >21:C:\Users\migue\MPLABXProjects\led.X\led1.asm
 7F94 main_code CODE >24:C:\Users\migue\MPLABXProjects\led.X\led1.asm
@@ -129,7 +129,7 @@ __Hudata_bank7 0 0 ABS 0 udata_bank7 -
 __L__absolute__ 0 0 ABS 0 __absolute__ -
 __LresetVec 0 0 ABS 0 resetVec -
 __HresetVec 0 0 ABS 0 resetVec -
-isa$xinst 0 0 ABS 0 - build/default/debug/led1.o
+isa$xinst 0 0 ABS 0 - build/default/production/led1.o
 __Hedata 0 0 ABS 0 edata -
 __Hudata 0 0 ABS 0 udata -
 __Hconfig 30000E 0 CONFIG 4 config -
@@ -143,7 +143,7 @@ __S0 8000 0 ABS 0 - -
 __S1 62 0 ABS 0 - -
 __S3 0 0 ABS 0 - -
 __Lconfig 0 0 CONFIG 4 config -
-isa$std 1 0 ABS 0 - build/default/debug/led1.o
+isa$std 1 0 ABS 0 - build/default/production/led1.o
 __Lspace_0 0 0 ABS 0 - -
 __Lspace_1 0 0 ABS 0 - -
 __Lspace_3 0 0 ABS 0 - -

@@ -1,18 +1,18 @@
 ### HEXMate logfile and output summary ###
 
 ### Command-line arguments ###
- C:\Users\migue\AppData\Local\Temp\xcAs9co.\driver_tmp_3.o
- -Odist/default/debug\led.X.debug.hex
- -logfile=dist/default/debug\led.X.debug.hxl
+ C:\Users\migue\AppData\Local\Temp\xcAs9ds.\driver_tmp_3.o
+ -Odist/default/production\led.X.production.hex
+ -logfile=dist/default/production\led.X.production.hxl
  -addressing=1
  -break=300000
 
 ### Memory Usage ###
  Input file ranges:
-  7F8Ch - 7FFFh		(C:\Users\migue\AppData\Local\Temp\xcAs9co.\driver_tmp_3.o)
-  300000h - 300003h		(C:\Users\migue\AppData\Local\Temp\xcAs9co.\driver_tmp_3.o)
-  300005h - 300006h		(C:\Users\migue\AppData\Local\Temp\xcAs9co.\driver_tmp_3.o)
-  300008h - 30000Dh		(C:\Users\migue\AppData\Local\Temp\xcAs9co.\driver_tmp_3.o)
+  7F8Ch - 7FFFh		(C:\Users\migue\AppData\Local\Temp\xcAs9ds.\driver_tmp_3.o)
+  300000h - 300003h		(C:\Users\migue\AppData\Local\Temp\xcAs9ds.\driver_tmp_3.o)
+  300005h - 300006h		(C:\Users\migue\AppData\Local\Temp\xcAs9ds.\driver_tmp_3.o)
+  300008h - 30000Dh		(C:\Users\migue\AppData\Local\Temp\xcAs9ds.\driver_tmp_3.o)
  Unused ranges:
   0h - 7F8Bh
   8000h - 2FFFFFh
@@ -22,7 +22,7 @@
 ### Hex Memory Map ###
  Legend:
   -- = Unused memory
-  H1 = Input file             (C:\Users\migue\AppData\Local\Temp\xcAs9co.\driver_tmp_3.o)
+  H1 = Input file             (C:\Users\migue\AppData\Local\Temp\xcAs9ds.\driver_tmp_3.o)
 ----------------------------------------------------------
          | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 ----------------------------------------------------------

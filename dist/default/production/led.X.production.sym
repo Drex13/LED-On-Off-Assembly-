@@ -50,7 +50,7 @@ udata 60 61 RAM 60 1
 main_code 7F90 7FFF CODE 7F90 0
 resetVec 7F8C 7F8F CODE 7F8C 0
 %locals
-build/default/debug/led1.o
+build/default/production/led1.o
 led1.asm
 14 7F8C 0 CODE 0
 led1.asm

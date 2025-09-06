@@ -4,11 +4,11 @@ Linker command line:
 
 -W-3 \
   --edf=E:/MPLAB/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\pic\dat\20250117225543_en.msgs \
-  -cs -h+dist/default/debug\led.X.debug.sym \
-  --cmf=dist/default/debug\led.X.debug.cmf -z -Q18F4550 \
-  -oC:\Users\migue\AppData\Local\Temp\xcAs9co.\driver_tmp_3.o \
+  -cs -h+dist/default/production\led.X.production.sym \
+  --cmf=dist/default/production\led.X.production.cmf -z -Q18F4550 \
+  -oC:\Users\migue\AppData\Local\Temp\xcAs9ds.\driver_tmp_3.o \
   --fixupoverflow=error -ver=XC8 PIC(R) Assembler --fixupoverflow=lstwarn \
-  -Mdist/default/debug/led.X.debug.map -E1 -ACODE=00h-07FFFh \
+  -Mdist/default/production/led.X.production.map -E1 -ACODE=00h-07FFFh \
   -ACONST=00h-07FFFh -ASMALLCONST=0800h-08FFhx120 \
   -AMEDIUMCONST=0800h-07FFFh -ACOMRAM=00h-05Fh -AABS1=00h-07FFh \
   -ABIGRAM=00h-07FFh -ARAM=060h-0FFh,0100h-01FFhx7 -ABANK0=060h-0FFh \
@@ -16,7 +16,7 @@ Linker command line:
   -ABANK4=0400h-04FFh -ABANK5=0500h-05FFh -ABANK6=0600h-06FFh \
   -ABANK7=0700h-07FFh -ASFR=0F60h-0FFFh -ABIGSFR=0F60h-0FFFh \
   -AIDLOC=0200000h-0200007h -AEEDATA=0F00000h-0F000FFh \
-  build/default/debug/led1.o 
+  build/default/production/led1.o 
 
 Object code version is 3.11
 
@@ -25,7 +25,7 @@ Machine type is 18F4550
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-build/default/debug/led1.o
+build/default/production/led1.o
                 config                           300000   300000        E        0       4
                 main_code                          7F90     7F90       70     3FC8       0
                 resetVec                           7F8C     7F8C        4     3FC6       0
