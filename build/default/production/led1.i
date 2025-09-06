@@ -5462,7 +5462,7 @@ Inicio:
     CLRF TRISB
     CLRF LATB
 
-    ; Configurar PORTA (botón en ((PORTA) and 0FFh), 0, a)
+
     MOVLW 0x01
     MOVWF TRISA
     BSF PORTA, 0
@@ -5472,19 +5472,18 @@ MainLoop:
     BTFSS PORTA, 0
     GOTO BotonPresionado
 
-    ; Botón NO presionado - Apagar LEDs
-    BCF LATB, 0
-    BCF LATB, 1
+    ; Botón NO presionado - Apagar todos los LEDs
+    CLRF LATB
     GOTO MainLoop
 
 BotonPresionado:
-    ; Ejecutar secuencia cuando botón está presionado
-    BSF LATB, 0
-    BSF LATB, 1
+
+    MOVLW 0x0F ; 00001111 prendidos
+    MOVWF LATB
     CALL Retardo_5s
 
-    BCF LATB, 0
-    BCF LATB, 1
+    ; APAGAR todos los LEDs
+    CLRF LATB ; 00000000 - Apagar todos los LEDs
     CALL Retardo_2s
 
     ; Verificar si el botón sigue presionado
@@ -5493,7 +5492,7 @@ BotonPresionado:
 
     GOTO BotonPresionado
 
-
+; Subrutina de Retardo de 5 Segundos
 Retardo_5s:
     MOVLW 125
     MOVWF ContadorExterno
