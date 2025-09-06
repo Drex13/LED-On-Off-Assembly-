@@ -12,7 +12,7 @@
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
 $build/default/production/SecuenciasLed.o
-edata EEDATA 3 F00000 F00000 50 1 1
+edata EEDATA 3 F00000 F00000 B4 1 1
 config CONFIG 4 300000 300000 E 1 1
 # %UNUSED Section
 # This section enumerates the unused ranges of each CLASS. Each entry
@@ -37,7 +37,7 @@ CODE 0-7FFF 1
 BIGRAM 0-7FF 1
 BIGSFR F60-FFF 1
 COMRAM 0-5F 1
-EEDATA F00050-F000FF 1
+EEDATA F000B4-F000FF 1
 MEDIUMCONST 800-7FFF 1
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
@@ -66,7 +66,7 @@ MEDIUMCONST 800-7FFF 1
 %SYMTAB
 __Hspace_0 0 0 ABS 0 - -
 __Hspace_1 0 0 ABS 0 - -
-__Hspace_3 F00050 0 ABS 0 - -
+__Hspace_3 F000B4 0 ABS 0 - -
 __Hspace_4 60000E 0 ABS 0 - -
 __Hudata_bank0 0 0 ABS 0 udata_bank0 -
 __Hudata_bank1 0 0 ABS 0 udata_bank1 -
@@ -89,7 +89,7 @@ __Lcode 0 0 ABS 0 code -
 __Ldata 0 0 ABS 0 data -
 __S0 0 0 ABS 0 - -
 __S1 0 0 ABS 0 - -
-__S3 F00050 0 ABS 0 - -
+__S3 F000B4 0 ABS 0 - -
 __Lconfig 0 0 CONFIG 4 config -
 isa$std 1 0 ABS 0 - build/default/production/SecuenciasLed.o
 __Lspace_0 0 0 ABS 0 - -
@@ -131,7 +131,7 @@ __Ludata_acs 0 0 ABS 0 udata_acs -
 # and size are in units of delta. The file address is in units of bytes.
 # All other numeric quantities are in decimal.
 %SEGMENTS
-edata 3 F00000 F00000 50 1
+edata 3 F00000 F00000 B4 1
 # %NOTES Section
 # This section contains data of all the note-psects.  The beginning of the section
 # is indicated by %NOTES. The first line indicates the name and decimal
