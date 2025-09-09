@@ -1,11 +1,11 @@
-; Proyecto: Encendido de LED 
+; Proyecto: Secuencia de 4 LEDs
 ; PIC18F4550
-; LED en RC0
-; Encendido 5 segundos, apagado 2 segundos
+; LEDs en RC0, RC1, RC2, RC3
+; Cada LED se enciende 1s, luego todos apagados 2s
 
         LIST    P=18F4550
         INCLUDE <P18F4550.INC>
-        CONFIG  OSC=HS, WDT=OFF, LVP=OFF, FOSC = INTOSCIO_EC
+        CONFIG  FOSC=INTOSCIO_EC, WDT=OFF, LVP=OFF, PBADEN=OFF
 
         PSECT  resetVec, class=CODE, reloc=2
         ORG     0x00
@@ -17,56 +17,32 @@
 MAIN:
 PSECT  main_code, class=CODE, reloc=2
 
-         ; Configuración de OSCCON (8 MHz, oscilador interno)
-    BSF     OSCCON, IRCF2
-    BSF     OSCCON, IRCF1
-    BSF     OSCCON, IRCF0    ; IRCF = 111 → 8 MHz
-    BSF     OSCCON, SCS0
-    BCF     OSCCON, SCS1     ; SCS = 01 → Oscilador Interno
+    ; Configuración de OSCCON (8 MHz, oscilador interno)
+    MOVLW   B'01110000'   ; IRCF=111 (8 MHz), SCS=00 (usar FOSC)
+    MOVWF   OSCCON
 
-        CLRF    LATC          ; limpiar LATC
-        CLRF    TRISC         ; puerto C como salida
+    CLRF    LATC          ; limpiar puerto C
+    CLRF    TRISC         ; puerto C como salida
 
 CICLO:
-        BSF     LATC,0        ; enciende LED (RC0 = 1)
-        CALL    DELAY5S       ; retardo de 5 segundos
-        BCF     LATC,0        ; apaga LED (RC0 = 0)
-        CALL    DELAY2S       ; retardo de 2 segundos
-        GOTO    CICLO         ; repetir siempre
+    ; Encender LED RC0
+    BSF     LATC,0
+    CALL    DELAY1S
+    BCF     LATC,0
 
-; -----------------------------------------
-; SUBRUTINAS DE RETARDO
-; Nota: dependen de la frecuencia de reloj (ej: 4 MHz)
-; -----------------------------------------
+    ; Encender LED RC1
+    BSF     LATC,1
+    CALL    DELAY1S
+    BCF     LATC,1
 
-; Retardo aproximado de 1 segundo
-DELAY1S:
-        MOVLW   B'11111111'   ; WREG = 255 (contador alto)
-        MOVWF   0x20
-L1:     MOVLW   B'11111111'   ; WREG = 255 (contador bajo)
-        MOVWF   0x21
-L2:     DECFSZ  0x21,F        ; decrementa, salta si llega a 0
-        GOTO    L2
-        DECFSZ  0x20,F
-        GOTO    L1
-        RETURN
+    ; Encender LED RC2
+    BSF     LATC,2
+    CALL    DELAY1S
+    BCF     LATC,2
 
-; Retardo de 5 segundos (5 veces DELAY1S)
-DELAY5S:
-        MOVLW   B'00000101'   ; WREG = 5
-        MOVWF   0x22
-L3:     CALL    DELAY1S
-        DECFSZ  0x22,F
-        GOTO    L3
-        RETURN
+    ; Encender LED RC3
+    BSF     LATC,3
+    CALL    DELAY1S
+    BCF     LATC,3
 
-; Retardo de 2 segundos (2 veces DELAY1S)
-DELAY2S:
-        MOVLW   B'00000010'   ; WREG = 2
-        MOVWF   0x23
-L4:     CALL    DELAY1S
-        DECFSZ  0x23,F
-        GOTO    L4
-        RETURN
-
-        END
+    ; Apagar todos y es
