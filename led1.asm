@@ -16,95 +16,127 @@ PSECT  main_code, class=CODE, reloc=2
 Inicio:
     ; Configurar puertos
     CLRF    TRISB           
-    CLRF    LATB           
+    CLRF    LATB            
     
-    
+    ; Configurar PORTA (botón en RA0)
     MOVLW   0x01           
     MOVWF   TRISA
-    BSF     PORTA, 0       
+    BSF     PORTA, 0      
+    
+    ; Inicializar contador de secuencia
+    CLRF    Secuencia      
 
 MainLoop:
-    ; Leer estado del botón (RA0)
+    ; Verificar si botón fue presionado
     BTFSS   PORTA, 0       
-    GOTO    BotonPresionado 
+    GOTO    CambiarSecuencia 
     
-    ; Botón NO presionado - Apagar todos los LEDs
-    CLRF    LATB            
-    GOTO    MainLoop       
+    ; Ejecutar secuencia actual automáticamente
+    MOVF    Secuencia, W   
+    ANDLW   0x03           ; Mantener entre 0-3 (4 secuencias)
+    
+    ; Seleccionar patrón según secuencia
+    MOVLW   0x00
+    XORWF   Secuencia, W
+    BZ      Secuencia0     ; Secuencia 0: Todos simultáneos
+    
+    MOVLW   0x01
+    XORWF   Secuencia, W
+    BZ      Secuencia1     ; Secuencia 1: LEDs 1, 3 y 4
+    
+    MOVLW   0x02
+    XORWF   Secuencia, W
+    BZ      Secuencia2     ; Secuencia 2: Todos prendidos
+    
+    GOTO    Secuencia3     ; Secuencia 3: Apagados
 
-BotonPresionado:
-    
-    MOVLW   0x0F     ; 00001111 prendidos      
+; SECUENCIA 0: Todos los LEDs simultáneos (ON-OFF)
+Secuencia0:
+    MOVLW   0x0F          
+    MOVWF   LATB
+    CALL    Retardo_2s
+    CLRF    LATB          
+    CALL    Retardo_1s
+    GOTO    MainLoop
+
+; SECUENCIA 1: LEDs 1, 3 y 4 (RB0, RB2, RB3)
+Secuencia1:
+    MOVLW   0x0D          
     MOVWF   LATB           
-    CALL    Retardo_5s     
-    
-    ; APAGAR todos los LEDs
-    CLRF    LATB      ; 00000000 - Apagar todos los LEDs      
+    CALL    Retardo_2s
+    CLRF    LATB           
+    CALL    Retardo_1s
+    GOTO    MainLoop
+
+; SECUENCIA 2: Todos los LEDs siempre prendidos
+Secuencia2:
+    MOVLW   0x0F           
+    MOVWF   LATB
     CALL    Retardo_2s     
+    GOTO    MainLoop
+
+; SECUENCIA 3: Todos los LEDs siempre apagados
+Secuencia3:
+    CLRF    LATB           
+    CALL    Retardo_2s    
+    GOTO    MainLoop
+
+; CAMBIAR SECUENCIA AL PRESIONAR BOTÓN
+CambiarSecuencia:
     
-    ; Verificar si el botón sigue presionado
-    BTFSC   PORTA, 0       
-    GOTO    MainLoop       
+    BTFSS   PORTA, 0       
+    GOTO    $-1            
     
-    GOTO    BotonPresionado 
-
-; Subrutina de Retardo de 5 Segundos
-Retardo_5s:
-    MOVLW   125            
-    MOVWF   ContadorExterno
-
-LoopExterno5s:
-    MOVLW   200            
-    MOVWF   ContadorInterno
-
-LoopInterno5s:
-    NOP
-    NOP
-    NOP
-    NOP
-    
-    ; Verificar botón durante el retardo
-    BTFSC   PORTA, 0       
-    RETURN                 
-    
-    DECFSZ  ContadorInterno, F
-    GOTO    LoopInterno5s
-
-    DECFSZ  ContadorExterno, F
-    GOTO    LoopExterno5s
-
-    RETURN
+    ; Cambiar a siguiente secuencia
+    INCF    Secuencia, F   
+    MOVLW   0x03            
+    ANDWF   Secuencia, F   
+    GOTO    MainLoop
 
 ; Subrutina de Retardo de 2 Segundos
 Retardo_2s:
     MOVLW   50             
     MOVWF   ContadorExterno
-
 LoopExterno2s:
     MOVLW   200            
     MOVWF   ContadorInterno
-
 LoopInterno2s:
     NOP
     NOP
     NOP
     NOP
-    
-    ; Verificar botón durante el retardo
-    BTFSC   PORTA, 0       
-    RETURN                 
-    
+    BTFSS   PORTA, 0      
+    RETURN                
     DECFSZ  ContadorInterno, F
     GOTO    LoopInterno2s
-
     DECFSZ  ContadorExterno, F
     GOTO    LoopExterno2s
+    RETURN
 
+; Subrutina de Retardo de 1 Segundo
+Retardo_1s:
+    MOVLW   25             
+    MOVWF   ContadorExterno
+LoopExterno1s:
+    MOVLW   200            
+    MOVWF   ContadorInterno
+LoopInterno1s:
+    NOP
+    NOP
+    NOP
+    NOP
+    BTFSS   PORTA, 0      
+    RETURN                 
+    DECFSZ  ContadorInterno, F
+    GOTO    LoopInterno1s
+    DECFSZ  ContadorExterno, F
+    GOTO    LoopExterno1s
     RETURN
 
 ; Variables
 PSECT udata
 ContadorExterno:   DS 1
 ContadorInterno:   DS 1
+Secuencia:         DS 1    
 
 END
