@@ -1,7 +1,8 @@
-; Proyecto: Secuencia de 4 LEDs
+; Proyecto: Secuencia de 4 LEDs con 2 modos
 ; PIC18F4550
 ; LEDs en RC0, RC1, RC2, RC3
-; Cada LED se enciende 1s, luego todos apagados 2s
+; Secuencia 1: uno por uno
+; Secuencia 2: ida y vuelta (chenille)
 
         LIST    P=18F4550
         INCLUDE <P18F4550.INC>
@@ -25,31 +26,67 @@ PSECT  main_code, class=CODE, reloc=2
     CLRF    TRISC         ; puerto C como salida
 
 CICLO:
-    ; Encender LED RC0
+    ; -------- SECUENCIA 1 --------
+    CALL    SECUENCIA1
+    CALL    DELAY2S        ; pausa entre secuencias
+
+    ; -------- SECUENCIA 2 --------
+    CALL    SECUENCIA2
+    CALL    DELAY2S        ; pausa entre secuencias
+
+    GOTO    CICLO
+
+; -----------------------------------------
+; SUBRUTINAS DE SECUENCIA
+; -----------------------------------------
+
+SECUENCIA1:    ; Encender LEDs uno por uno
     BSF     LATC,0
     CALL    DELAY1S
     BCF     LATC,0
 
-    ; Encender LED RC1
     BSF     LATC,1
     CALL    DELAY1S
     BCF     LATC,1
 
-    ; Encender LED RC2
     BSF     LATC,2
     CALL    DELAY1S
     BCF     LATC,2
 
-    ; Encender LED RC3
     BSF     LATC,3
     CALL    DELAY1S
     BCF     LATC,3
 
-    ; Apagar todos y esperar 2 segundos
-    CLRF    LATC
-    CALL    DELAY2S
+    RETURN
 
-    GOTO    CICLO
+SECUENCIA2:    ; 
+    ; Ida
+    BSF     LATC,0
+    CALL    DELAY1S
+    BCF     LATC,0
+
+    BSF     LATC,1
+    CALL    DELAY1S
+    BCF     LATC,1
+
+    BSF     LATC,2
+    CALL    DELAY1S
+    BCF     LATC,2
+
+    BSF     LATC,3
+    CALL    DELAY1S
+    BCF     LATC,3
+
+    ; Vuelta
+    BSF     LATC,2
+    CALL    DELAY1S
+    BCF     LATC,2
+
+    BSF     LATC,1
+    CALL    DELAY1S
+    BCF     LATC,1
+
+    RETURN
 
 ; -----------------------------------------
 ; SUBRUTINAS DE RETARDO
