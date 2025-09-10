@@ -5443,7 +5443,7 @@ ENDM
 # 2 "SecuenciasLed.asm" 2
 
 
-    ; configuración
+    ; Configuración
     CONFIG FOSC = INTOSCIO_EC
     CONFIG FCMEN = OFF
     CONFIG IESO = OFF
@@ -5452,134 +5452,133 @@ ENDM
     CONFIG LVP = OFF
 
     ; variables
-    CONTADOR EQU 0x20
-    TIEMPO1 EQU 0x21
-    TIEMPO2 EQU 0x22
-    TIEMPO3 EQU 0x23
-    SECUENCIA EQU 0x24
+    PSECT udata_acs
+CONTADOR: DS 1
+TIEMPO1: DS 1
+TIEMPO2: DS 1
+TIEMPO3: DS 1
+SECUENCIA: DS 1
+TEMP: DS 1
+BOTON_ANT: DS 1
 
-    ORG 0x0000
+    PSECT resetVec,class=CODE,reloc=2
     GOTO PROGRAMA_PRINCIPAL
 
+    ; Código principal
+    PSECT code
 PROGRAMA_PRINCIPAL:
-    ; Preparar el puerto B para los LEDs
-    MOVLW 0xF0 ; ((PORTB) and 0FFh), 0, a-((PORTB) and 0FFh), 3, a = salidas
-    MOVWF TRISB
-    CLRF LATB ; Apagar todos los LEDs
+    ; Preparar el puerto B para LEDs
+    MOVLW 0xF0
+    MOVWF TRISB, A
+    CLRF LATB, A
 
-    ; Configurar el reloj interno
-    MOVLW 0x72 ; 8MHz
-    MOVWF OSCCON
+    ; Configurar reloj interno a 8MHz
+    MOVLW 0x72
+    MOVWF OSCCON, A
 
-    CLRF SECUENCIA ; Empezar con secuencia 0
+    ; Iniciar variables
+    CLRF SECUENCIA, A
+    CLRF BOTON_ANT, A
 
 BUCLE_PRINCIPAL:
-    ; Verificar qué secuencia ejecutar
-    MOVF SECUENCIA, W
+    ; Verificar qué secuencia mostrar
+    MOVF SECUENCIA, W, A
     BZ SECUENCIA_CARRERA
     XORLW 0x01
     BZ SECUENCIA_PARPADEO
     BRA SECUENCIA_BINARIO
 
-; Secuencia 1: Carrera de LEDs
+; Secuencia 1: LEDs que corren
 SECUENCIA_CARRERA:
     MOVLW 0x01
-    MOVWF LATB
+    MOVWF LATB, A
     CALL ESPERAR
 
     MOVLW 0x02
-    MOVWF LATB
+    MOVWF LATB, A
     CALL ESPERAR
 
     MOVLW 0x04
-    MOVWF LATB
+    MOVWF LATB, A
     CALL ESPERAR
 
     MOVLW 0x08
-    MOVWF LATB
+    MOVWF LATB, A
     CALL ESPERAR
 
-    CLRF LATB
+    CLRF LATB, A
     CALL ESPERAR
 
-    BRA CAMBIAR_SECUENCIA
+    BRA BUCLE_PRINCIPAL
 
-; Secuencia 2: Parpadeo de todos
+; Secuencia 2: Todos parpadean
 SECUENCIA_PARPADEO:
-    MOVLW 0x03 ; Repetir 3 veces
-    MOVWF CONTADOR
+    MOVLW 0x03
+    MOVWF CONTADOR, A
 PARPADEO_LOOP:
-    MOVLW 0x0F ; Encender los 4 LEDs
-    MOVWF LATB
+    MOVLW 0x0F
+    MOVWF LATB, A
     CALL ESPERAR_LARGO
 
-    CLRF LATB ; Apagar todos
+    CLRF LATB, A
     CALL ESPERAR_LARGO
 
-    DECFSZ CONTADOR, F
+    DECFSZ CONTADOR, F, A
     BRA PARPADEO_LOOP
 
-    BRA CAMBIAR_SECUENCIA
+    BRA BUCLE_PRINCIPAL
 
-; Secuencia 3: Contador
+; Secuencia 3: Contador binario
 SECUENCIA_BINARIO:
-    CLRF CONTADOR
-    MOVLW 0x10 ; Contar de 0 a 15
-    MOVWF LATB
+    CLRF CONTADOR, A
+    MOVLW 0x10
+    MOVWF TEMP, A
 BINARIO_LOOP:
-    MOVFF CONTADOR, LATB
+    MOVF CONTADOR, W, A
+    MOVWF LATB, A
     CALL ESPERAR_LARGO
-    INCF CONTADOR, F
-    DECFSZ LATB, F
+
+    INCF CONTADOR, F, A
+    DECFSZ TEMP, F, A
     BRA BINARIO_LOOP
-
-; Cambiar a la siguiente secuencia
-CAMBIAR_SECUENCIA:
-    INCF SECUENCIA, F
-    MOVLW 0x03
-    CPFSLT SECUENCIA ; Si SECUENCIA >= 3, resetear a 0
-    CLRF SECUENCIA
-
-    CALL ESPERAR_LARGO
-    CALL ESPERAR_LARGO
 
     BRA BUCLE_PRINCIPAL
 
 ; Retardo corto
 ESPERAR:
     MOVLW 0x20
-    MOVWF TIEMPO3
+    MOVWF TIEMPO3, A
 CICLO3:
     MOVLW 0xFF
-    MOVWF TIEMPO2
+    MOVWF TIEMPO2, A
 CICLO2:
     MOVLW 0xFF
-    MOVWF TIEMPO1
+    MOVWF TIEMPO1, A
 CICLO1:
-    DECFSZ TIEMPO1, F
+    DECFSZ TIEMPO1, F, A
     BRA CICLO1
-    DECFSZ TIEMPO2, F
+    DECFSZ TIEMPO2, F, A
     BRA CICLO2
-    DECFSZ TIEMPO3, F
+    DECFSZ TIEMPO3, F, A
     BRA CICLO3
     RETURN
 
 ; Retardo largo
 ESPERAR_LARGO:
     MOVLW 0x80
-    MOVWF TIEMPO3
+    MOVWF TIEMPO3, A
 CICLO3_LARGO:
     MOVLW 0xFF
-    MOVWF TIEMPO2
+    MOVWF TIEMPO2, A
 CICLO2_LARGO:
     MOVLW 0xFF
-    MOVWF TIEMPO1
+    MOVWF TIEMPO1, A
 CICLO1_LARGO:
-    DECFSZ TIEMPO1, F
+    DECFSZ TIEMPO1, F, A
     BRA CICLO1_LARGO
-    DECFSZ TIEMPO2, F
+    DECFSZ TIEMPO2, F, A
     BRA CICLO2_LARGO
-    DECFSZ TIEMPO3, F
+    DECFSZ TIEMPO3, F, A
     BRA CICLO3_LARGO
     RETURN
 

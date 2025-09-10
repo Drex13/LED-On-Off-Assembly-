@@ -12,7 +12,9 @@
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
 $build/default/production/SecuenciasLed.o
-edata EEDATA 3 F00000 F00000 B4 1 1
+resetVec CODE 0 7F5A 7F5A 4 1 2
+code CODE 0 7F5E 7F5E A2 1 2
+udata_acs COMRAM 1 0 0 7 1 1
 config CONFIG 4 300000 300000 E 1 1
 # %UNUSED Section
 # This section enumerates the unused ranges of each CLASS. Each entry
@@ -30,15 +32,15 @@ BANK4 400-4FF 1
 BANK5 500-5FF 1
 BANK6 600-6FF 1
 BANK7 700-7FF 1
-CONST 0-7FFF 1
+CONST 0-7F59 1
 IDLOC 200000-200007 1
-SMALLCONST 800-7FFF 1
-CODE 0-7FFF 1
+SMALLCONST 800-7F59 1
+CODE 0-7F59 1
 BIGRAM 0-7FF 1
 BIGSFR F60-FFF 1
-COMRAM 0-5F 1
-EEDATA F000B4-F000FF 1
-MEDIUMCONST 800-7FFF 1
+COMRAM 7-5F 1
+EEDATA F00000-F000FF 1
+MEDIUMCONST 800-7F59 1
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
 # The beginning of the section is indicated by %LINETAB.
@@ -52,6 +54,81 @@ MEDIUMCONST 800-7FFF 1
 # are in ascending order of addresses.
 # All other numeric values are in decimal.
 %LINETAB
+$build/default/production/SecuenciasLed.o
+7F5A resetVec CODE >23:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F5E code CODE >29:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F60 code CODE >30:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F62 code CODE >31:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F64 code CODE >34:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F66 code CODE >35:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F68 code CODE >38:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F6A code CODE >39:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F6C code CODE >43:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F6E code CODE >44:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F70 code CODE >45:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F72 code CODE >46:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F74 code CODE >47:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F76 code CODE >51:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F78 code CODE >52:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F7A code CODE >53:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F7E code CODE >55:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F80 code CODE >56:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F82 code CODE >57:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F86 code CODE >59:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F88 code CODE >60:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F8A code CODE >61:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F8E code CODE >63:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F90 code CODE >64:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F92 code CODE >65:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F96 code CODE >67:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F98 code CODE >68:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F9C code CODE >70:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7F9E code CODE >74:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FA0 code CODE >75:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FA2 code CODE >77:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FA4 code CODE >78:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FA6 code CODE >79:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FAA code CODE >81:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FAC code CODE >82:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FB0 code CODE >84:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FB2 code CODE >85:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FB4 code CODE >87:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FB6 code CODE >91:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FB8 code CODE >92:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FBA code CODE >93:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FBC code CODE >95:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FBE code CODE >96:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FC0 code CODE >97:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FC4 code CODE >99:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FC6 code CODE >100:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FC8 code CODE >101:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FCA code CODE >103:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FCC code CODE >107:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FCE code CODE >108:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FD0 code CODE >110:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FD2 code CODE >111:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FD4 code CODE >113:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FD6 code CODE >114:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FD8 code CODE >116:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FDA code CODE >117:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FDC code CODE >118:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FDE code CODE >119:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FE0 code CODE >120:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FE2 code CODE >121:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FE4 code CODE >122:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FE6 code CODE >126:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FE8 code CODE >127:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FEA code CODE >129:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FEC code CODE >130:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FEE code CODE >132:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FF0 code CODE >133:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FF2 code CODE >135:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FF4 code CODE >136:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FF6 code CODE >137:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FF8 code CODE >138:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FFA code CODE >139:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FFC code CODE >140:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
+7FFE code CODE >141:C:\Users\MIPC\MPLABXProjects\SecuenciasLed.X\SecuenciasLed.asm
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -64,9 +141,9 @@ MEDIUMCONST 800-7FFF 1
 # was defined in a psect then <psect> will be "-". File-name
 # is the name of the object file in which the symbol was defined.
 %SYMTAB
-__Hspace_0 0 0 ABS 0 - -
-__Hspace_1 0 0 ABS 0 - -
-__Hspace_3 F000B4 0 ABS 0 - -
+__Hspace_0 8000 0 ABS 0 - -
+__Hspace_1 7 0 ABS 0 - -
+__Hspace_3 0 0 ABS 0 - -
 __Hspace_4 60000E 0 ABS 0 - -
 __Hudata_bank0 0 0 ABS 0 udata_bank0 -
 __Hudata_bank1 0 0 ABS 0 udata_bank1 -
@@ -77,6 +154,8 @@ __Hudata_bank5 0 0 ABS 0 udata_bank5 -
 __Hudata_bank6 0 0 ABS 0 udata_bank6 -
 __Hudata_bank7 0 0 ABS 0 udata_bank7 -
 __L__absolute__ 0 0 ABS 0 __absolute__ -
+__LresetVec 0 0 ABS 0 resetVec -
+__HresetVec 0 0 ABS 0 resetVec -
 isa$xinst 0 0 ABS 0 - build/default/production/SecuenciasLed.o
 __Hedata 0 0 ABS 0 edata -
 __Hudata 0 0 ABS 0 udata -
@@ -87,9 +166,9 @@ __Hcode 0 0 ABS 0 code -
 __Hdata 0 0 ABS 0 data -
 __Lcode 0 0 ABS 0 code -
 __Ldata 0 0 ABS 0 data -
-__S0 0 0 ABS 0 - -
-__S1 0 0 ABS 0 - -
-__S3 F000B4 0 ABS 0 - -
+__S0 8000 0 ABS 0 - -
+__S1 7 0 ABS 0 - -
+__S3 0 0 ABS 0 - -
 __Lconfig 0 0 CONFIG 4 config -
 isa$std 1 0 ABS 0 - build/default/production/SecuenciasLed.o
 __Lspace_0 0 0 ABS 0 - -
@@ -131,7 +210,9 @@ __Ludata_acs 0 0 ABS 0 udata_acs -
 # and size are in units of delta. The file address is in units of bytes.
 # All other numeric quantities are in decimal.
 %SEGMENTS
-edata 3 F00000 F00000 B4 1
+resetVec 0 7F5A 7F5A 4 1
+code 0 7F5E 7F5E A2 1
+udata_acs 1 0 0 7 1
 # %NOTES Section
 # This section contains data of all the note-psects.  The beginning of the section
 # is indicated by %NOTES. The first line indicates the name and decimal
