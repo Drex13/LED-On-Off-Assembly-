@@ -1,7 +1,7 @@
 ### HEXMate logfile and output summary ###
 
 ### Command-line arguments ###
- C:\Users\MIPC\AppData\Local\Temp\xcAs31o.\driver_tmp_3.o
+ C:\Users\MIPC\AppData\Local\Temp\xcAs3c4.\driver_tmp_3.o
  -Odist/default/production\SecuenciasLed.X.production.hex
  -logfile=dist/default/production\SecuenciasLed.X.production.hxl
  -addressing=1
@@ -9,34 +9,34 @@
 
 ### Memory Usage ###
  Input file ranges:
-  7F5Ah - 7FFFh		(C:\Users\MIPC\AppData\Local\Temp\xcAs31o.\driver_tmp_3.o)
-  300000h - 300003h		(C:\Users\MIPC\AppData\Local\Temp\xcAs31o.\driver_tmp_3.o)
-  300005h - 300006h		(C:\Users\MIPC\AppData\Local\Temp\xcAs31o.\driver_tmp_3.o)
-  300008h - 30000Dh		(C:\Users\MIPC\AppData\Local\Temp\xcAs31o.\driver_tmp_3.o)
+  300000h - 300003h		(C:\Users\MIPC\AppData\Local\Temp\xcAs3c4.\driver_tmp_3.o)
+  300005h - 300006h		(C:\Users\MIPC\AppData\Local\Temp\xcAs3c4.\driver_tmp_3.o)
+  300008h - 30000Dh		(C:\Users\MIPC\AppData\Local\Temp\xcAs3c4.\driver_tmp_3.o)
+  F00000h - F000A9h		(C:\Users\MIPC\AppData\Local\Temp\xcAs3c4.\driver_tmp_3.o)
  Unused ranges:
-  0h - 7F59h
-  8000h - 2FFFFFh
+  0h - 2FFFFFh
   300004h - 300004h
   300007h - 300007h
+  30000Eh - EFFFFFh
 
 ### Hex Memory Map ###
  Legend:
   -- = Unused memory
-  H1 = Input file             (C:\Users\MIPC\AppData\Local\Temp\xcAs31o.\driver_tmp_3.o)
+  H1 = Input file             (C:\Users\MIPC\AppData\Local\Temp\xcAs3c4.\driver_tmp_3.o)
 ----------------------------------------------------------
          | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 ----------------------------------------------------------
-00007F50 | -- -- -- -- -- -- -- -- -- -- H1 H1 H1 H1 H1 H1
-00007F60 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00007F70 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00007F80 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00007F90 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00007FA0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00007FB0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00007FC0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00007FD0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00007FE0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00007FF0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-----------------------------------------------------------
 00300000 | H1 H1 H1 H1 -- H1 H1 -- H1 H1 H1 H1 H1 H1 -- --
-00300010 | --
+----------------------------------------------------------
+00F00000 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F00010 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F00020 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F00030 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F00040 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F00050 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F00060 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F00070 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F00080 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F00090 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00F000A0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- -- -- -- -- --
+00F000B0 | --
