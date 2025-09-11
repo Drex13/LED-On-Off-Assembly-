@@ -5451,7 +5451,7 @@ ENDM
     CONFIG PBADEN = OFF
     CONFIG LVP = OFF
 
-    ; Variables en memoria
+    ; Variables
 CONTADOR EQU 0x20
 TIEMPO1 EQU 0x21
 TIEMPO2 EQU 0x22
@@ -5462,12 +5462,15 @@ SECUENCIA EQU 0x24
     GOTO INICIO
 
 INICIO:
-    ; Configurar puerto B como salida
-    MOVLW 0x00 ; Todos los pines como salida
+    ; Configurar puertos
+    ; ((PORTB) and 0FFh), 0, a como entrada (botón), ((PORTD) and 0FFh), 0, a-((PORTD) and 0FFh), 3, a como salidas (LEDs)
+    MOVLW 0x01
     MOVWF TRISB
-    CLRF LATB ; Apagar todos los LEDs
+    MOVLW 0x00
+    MOVWF TRISD
+    CLRF LATD ; Apagar todos los LEDs
 
-    ; Iniciar variables
+    ; Iniciar variable de secuencia
     CLRF SECUENCIA
 
 PRINCIPAL:
@@ -5481,35 +5484,35 @@ PRINCIPAL:
 SECUENCIA1:
     ; Carrera de LEDs
     MOVLW 1
-    MOVWF LATB
+    MOVWF LATD
     CALL RETARDO
 
     MOVLW 2
-    MOVWF LATB
+    MOVWF LATD
     CALL RETARDO
 
     MOVLW 4
-    MOVWF LATB
+    MOVWF LATD
     CALL RETARDO
 
     MOVLW 8
-    MOVWF LATB
+    MOVWF LATD
     CALL RETARDO
 
-    CLRF LATB
+    CLRF LATD
     CALL RETARDO
     BRA CAMBIAR_SECUENCIA
 
 SECUENCIA2:
-    ; Parpadeo de todos
+    ; Parpadeo LEDs
     MOVLW 3
     MOVWF CONTADOR
 PARPADEO:
-    MOVLW 15 ; Todos los LEDs encendidos
-    MOVWF LATB
+    MOVLW 15 ; ((PORTD) and 0FFh), 0, a-((PORTD) and 0FFh), 3, a encendidos
+    MOVWF LATD
     CALL RETARDO_LARGO
 
-    CLRF LATB ; Todos apagados
+    CLRF LATD ; Todos apagados
     CALL RETARDO_LARGO
 
     DECFSZ CONTADOR, F
@@ -5522,7 +5525,7 @@ SECUENCIA3:
     MOVLW 16
 CONTAR:
     MOVF CONTADOR, W
-    MOVWF LATB
+    MOVWF LATD
     CALL RETARDO_LARGO
     INCF CONTADOR, F
     DECFSZ WREG, F
