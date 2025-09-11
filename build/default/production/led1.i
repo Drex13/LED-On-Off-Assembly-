@@ -5460,6 +5460,9 @@ ORG 0x00
 PSECT main_code, class=CODE, reloc=2
 
 Inicio:
+    MOVLW 0x0F
+    MOVWF ADCON1
+
     CLRF TRISB ; RB como salida
     CLRF LATB ; LEDs apagados
 
