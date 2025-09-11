@@ -5458,7 +5458,7 @@ GOTO Inicio
 PSECT main_code, class=CODE, reloc=2
 
 Inicio:
-    ; Configurar puertos
+
     CLRF TRISB
     CLRF LATB
 
@@ -5467,88 +5467,124 @@ Inicio:
     MOVWF TRISA
     BSF PORTA, 0
 
+
+    CLRF Secuencia ; 0-2 para 3 secuencias
+
 MainLoop:
-    ; Leer estado del botón (((PORTA) and 0FFh), 0, a)
-    BTFSS PORTA, 0
-    GOTO BotonPresionado
+    ; Verificar si botón fue presionado
+    BTFSS PORTA, 0 ; Botón NO presionado?
+    GOTO CambiarSecuencia ; Botón presionado, cambiar secuencia
 
-    ; Botón NO presionado - Apagar todos los LEDs
-    CLRF LATB
-    GOTO MainLoop
 
-BotonPresionado:
+    MOVF Secuencia, W ; Cargar número de secuencia
+    ANDLW 0x03 ; Mantener entre 0-2
 
-    MOVLW 0x0F ; 00001111 prendidos
+
+    MOVLW 0x00
+    XORWF Secuencia, W
+    BZ Secuencia0 ; Secuencia 0: Todos
+
+    MOVLW 0x01
+    XORWF Secuencia, W
+    BZ Secuencia1 ; Secuencia 1: Pares 1+3 y 2+4
+
+    GOTO Secuencia2 ; Secuencia 2: Pares 1+4 y 2+3
+
+; SECUENCIA 0: Todos los LEDs simultáneos
+Secuencia0:
+    MOVLW 0x0F ; Todos ON
     MOVWF LATB
-    CALL Retardo_5s
-
-    ; APAGAR todos los LEDs
-    CLRF LATB ; 00000000 - Apagar todos los LEDs
-    CALL Retardo_2s
-
-    ; Verificar si el botón sigue presionado
-    BTFSC PORTA, 0
+    CALL Retardo_1s
+    CLRF LATB ; Todos OFF
+    CALL Retardo_1s
     GOTO MainLoop
 
-    GOTO BotonPresionado
+; SECUENCIA 1: LEDs 1+3 y 2+4 alternados
+Secuencia1:
+    MOVLW 0x05 ; ((PORTB) and 0FFh), 0, a y ((PORTB) and 0FFh), 2, a ON
+    MOVWF LATB
+    CALL Retardo_1s
+    CLRF LATB ; Todos OFF
+    CALL Retardo_0_5s
 
-; Subrutina de Retardo de 5 Segundos
-Retardo_5s:
-    MOVLW 125
+    MOVLW 0x0A ; ((PORTB) and 0FFh), 1, a y ((PORTB) and 0FFh), 3, a ON
+    MOVWF LATB
+    CALL Retardo_1s
+    CLRF LATB ; Todos OFF
+    CALL Retardo_0_5s
+    GOTO MainLoop
+
+; SECUENCIA 2: LEDs 1+4 y 2+3 alternados
+Secuencia2:
+    MOVLW 0x09 ; ((PORTB) and 0FFh), 0, a y ((PORTB) and 0FFh), 3, a ON
+    MOVWF LATB
+    CALL Retardo_1s
+    CLRF LATB ; Todos OFF
+    CALL Retardo_0_5s
+
+    MOVLW 0x06 ; ((PORTB) and 0FFh), 1, a y ((PORTB) and 0FFh), 2, a ON
+    MOVWF LATB
+    CALL Retardo_1s
+    CLRF LATB ; Todos OFF
+    CALL Retardo_0_5s
+    GOTO MainLoop
+
+; CAMBIAR SECUENCIA AL PRESIONAR BOTÓN
+CambiarSecuencia:
+
+    BTFSS PORTA, 0 ; Botón sigue presionado?
+    GOTO $-1 ; Esperar hasta que se suelte
+
+
+    INCF Secuencia, F ; Incrementar número de secuencia
+    MOVLW 0x03 ;
+    ANDWF Secuencia, F ; Mantener entre 0-2
+    GOTO MainLoop
+
+
+Retardo_1s:
+    MOVLW 25
     MOVWF ContadorExterno
-
-LoopExterno5s:
+LoopExterno1s:
     MOVLW 200
     MOVWF ContadorInterno
-
-LoopInterno5s:
+LoopInterno1s:
     NOP
     NOP
     NOP
     NOP
-
-    ; Verificar botón durante el retardo
-    BTFSC PORTA, 0
+    BTFSS PORTA, 0 ; Verificar si botón es presionado
     RETURN
-
     DECFSZ ContadorInterno, F
-    GOTO LoopInterno5s
-
+    GOTO LoopInterno1s
     DECFSZ ContadorExterno, F
-    GOTO LoopExterno5s
-
+    GOTO LoopExterno1s
     RETURN
 
-; Subrutina de Retardo de 2 Segundos
-Retardo_2s:
-    MOVLW 50
-    MOVWF ContadorExterno
 
-LoopExterno2s:
+Retardo_0_5s:
+    MOVLW 12
+    MOVWF ContadorExterno
+LoopExterno05s:
     MOVLW 200
     MOVWF ContadorInterno
-
-LoopInterno2s:
+LoopInterno05s:
     NOP
     NOP
     NOP
     NOP
-
-    ; Verificar botón durante el retardo
-    BTFSC PORTA, 0
+    BTFSS PORTA, 0 ; Verificar si botón es presionado
     RETURN
-
     DECFSZ ContadorInterno, F
-    GOTO LoopInterno2s
-
+    GOTO LoopInterno05s
     DECFSZ ContadorExterno, F
-    GOTO LoopExterno2s
-
+    GOTO LoopExterno05s
     RETURN
 
 ; Variables
 PSECT udata
 ContadorExterno: DS 1
 ContadorInterno: DS 1
+Secuencia: DS 1 ; 0-2 para 3 secuencias
 
 END
