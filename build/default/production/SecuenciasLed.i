@@ -5443,7 +5443,6 @@ ENDM
 # 2 "SecuenciasLed.asm" 2
 
 
-    ; Configuración
     CONFIG FOSC = INTOSCIO_EC
     CONFIG FCMEN = OFF
     CONFIG IESO = OFF
@@ -5451,133 +5450,109 @@ ENDM
     CONFIG PBADEN = OFF
     CONFIG LVP = OFF
 
-    ; Variables
-CONTADOR EQU 0x20
-TIEMPO1 EQU 0x21
-TIEMPO2 EQU 0x22
-TIEMPO3 EQU 0x23
-SECUENCIA EQU 0x24
+    PSECT udata_acs
+    ContadorExterno: DS 1
+    ContadorInterno: DS 1
+    SecuenciaActual: DS 1
+    BotonAnt: DS 1
+    Temp: DS 1
 
-    ORG 0x0000
-    GOTO INICIO
+    PSECT main_code, class=CODE, reloc=2
 
-INICIO:
-    ; Configurar puertos
-    ; ((PORTB) and 0FFh), 0, a como entrada (botón), ((PORTD) and 0FFh), 0, a-((PORTD) and 0FFh), 3, a como salidas (LEDs)
-    MOVLW 0x01
-    MOVWF TRISB
-    MOVLW 0x00
-    MOVWF TRISD
-    CLRF LATD ; Apagar todos los LEDs
+Inicio:
+    MOVLW 0x72
+    MOVWF OSCCON, A
+    CLRF OSCTUNE, A
+    MOVLW 0x0F
+    MOVWF ADCON1, A
+    MOVLW 0x07
+    MOVWF CMCON, A
 
-    ; Iniciar variable de secuencia
-    CLRF SECUENCIA
+    CLRF TRISD, A ; PORTD como salida (LEDs en ((PORTD) and 0FFh), 0, a-((PORTD) and 0FFh), 3, a)
+    CLRF LATD, A ; LEDs apagados
 
-PRINCIPAL:
+    BSF TRISB, 0, A ; ((PORTB) and 0FFh), 0, a como entrada para botón
+    CLRF BotonAnt, A ; Estado anterior del botón
+    CLRF SecuenciaActual, A ; Secuencia inicial 0
+
+BuclePrincipal:
     ; Verificar secuencia actual
-    MOVF SECUENCIA, W
-    BZ SECUENCIA1
-    XORLW 1
-    BZ SECUENCIA2
-    BRA SECUENCIA3
+    MOVF SecuenciaActual, W, A
+    BZ Secuencia1 ; Si es 0, ir a Secuencia1
 
-SECUENCIA1:
-    ; Carrera de LEDs
     MOVLW 1
-    MOVWF LATD
-    CALL RETARDO
+    SUBWF SecuenciaActual, W, A
+    BZ Secuencia2 ; Si es 1, ir a Secuencia2
 
     MOVLW 2
-    MOVWF LATD
-    CALL RETARDO
+    SUBWF SecuenciaActual, W, A
+    BZ Secuencia3 ; Si es 2, ir a Secuencia3
 
-    MOVLW 4
-    MOVWF LATD
-    CALL RETARDO
+    GOTO Secuencia1 ; Por seguridad, ir a Secuencia1
 
-    MOVLW 8
-    MOVWF LATD
-    CALL RETARDO
+Secuencia1:
+    MOVLW 0x01
+    MOVWF LATD, A
+    CALL Retardo_1s
 
-    CLRF LATD
-    CALL RETARDO
-    BRA CAMBIAR_SECUENCIA
+    MOVLW 0x02
+    MOVWF LATD, A
+    CALL Retardo_1s
 
-SECUENCIA2:
-    ; Parpadeo LEDs
-    MOVLW 3
-    MOVWF CONTADOR
-PARPADEO:
-    MOVLW 15 ; ((PORTD) and 0FFh), 0, a-((PORTD) and 0FFh), 3, a encendidos
-    MOVWF LATD
-    CALL RETARDO_LARGO
+    MOVLW 0x04
+    MOVWF LATD, A
+    CALL Retardo_1s
 
-    CLRF LATD ; Todos apagados
-    CALL RETARDO_LARGO
+    MOVLW 0x08
+    MOVWF LATD, A
+    CALL Retardo_1s
 
-    DECFSZ CONTADOR, F
-    BRA PARPADEO
-    BRA CAMBIAR_SECUENCIA
+    CLRF LATD, A
+    CALL Retardo_1s
+    CALL Retardo_1s
+    GOTO BuclePrincipal
 
-SECUENCIA3:
-    ; Contador
-    CLRF CONTADOR
+Secuencia2:
+    MOVLW 0x03
+    MOVWF ContadorExterno, A
+Parpadeo:
+    MOVLW 0x0F
+    MOVWF LATD, A
+    CALL Retardo_1s
+    CLRF LATD, A
+    CALL Retardo_1s
+    DECFSZ ContadorExterno, F, A
+    GOTO Parpadeo
+    GOTO BuclePrincipal
+
+Secuencia3:
+    CLRF ContadorExterno, A
     MOVLW 16
-CONTAR:
-    MOVF CONTADOR, W
-    MOVWF LATD
-    CALL RETARDO_LARGO
-    INCF CONTADOR, F
+Contar:
+    MOVF ContadorExterno, W, A
+    MOVWF LATD, A
+    CALL Retardo_1s
+    INCF ContadorExterno, F, A
     DECFSZ WREG, F
-    BRA CONTAR
+    GOTO Contar
+    GOTO BuclePrincipal
 
-CAMBIAR_SECUENCIA:
-    ; Cambiar a siguiente secuencia
-    INCF SECUENCIA, F
-    MOVLW 3
-    CPFSLT SECUENCIA
-    CLRF SECUENCIA
-
-    ; Pequeña pausa entre secuencias
-    CALL RETARDO_LARGO
-    BRA PRINCIPAL
-
-RETARDO:
-    ; Retardo corto
-    MOVLW 100
-    MOVWF TIEMPO3
-LOOP3:
-    MOVLW 255
-    MOVWF TIEMPO2
-LOOP2:
-    MOVLW 255
-    MOVWF TIEMPO1
-LOOP1:
-    DECFSZ TIEMPO1, F
-    BRA LOOP1
-    DECFSZ TIEMPO2, F
-    BRA LOOP2
-    DECFSZ TIEMPO3, F
-    BRA LOOP3
-    RETURN
-
-RETARDO_LARGO:
-    ; Retardo largo
+Retardo_1s:
     MOVLW 200
-    MOVWF TIEMPO3
-LOOP3_L:
+    MOVWF ContadorExterno, A
+Loop3:
     MOVLW 255
-    MOVWF TIEMPO2
-LOOP2_L:
+    MOVWF ContadorInterno, A
+Loop2:
     MOVLW 255
-    MOVWF TIEMPO1
-LOOP1_L:
-    DECFSZ TIEMPO1, F
-    BRA LOOP1_L
-    DECFSZ TIEMPO2, F
-    BRA LOOP2_L
-    DECFSZ TIEMPO3, F
-    BRA LOOP3_L
+    MOVWF Temp, A
+Loop1:
+    DECFSZ Temp, F, A
+    GOTO Loop1
+    DECFSZ ContadorInterno, F, A
+    GOTO Loop2
+    DECFSZ ContadorExterno, F, A
+    GOTO Loop3
     RETURN
 
     END
