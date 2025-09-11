@@ -6,7 +6,7 @@ Linker command line:
   --edf=D:/mplab/packs/Microchip/PIC18Fxxxx_DFP/1.7.171/xc8\pic\dat\20250117225543_en.msgs \
   -cs -h+dist/default/production\SecuenciasLed.X.production.sym \
   --cmf=dist/default/production\SecuenciasLed.X.production.cmf -z -Q18F4550 \
-  -oC:\Users\MIPC\AppData\Local\Temp\xcAs4lk.\driver_tmp_3.o \
+  -oC:\Users\MIPC\AppData\Local\Temp\xcAs7rc.\driver_tmp_3.o \
   --fixupoverflow=error -ver=XC8 PIC(R) Assembler --fixupoverflow=lstwarn \
   -Mdist/default/production/SecuenciasLed.X.production.map -E1 --acfsm=1493 \
   -ACODE=00h-07FFFh -ACONST=00h-07FFFh -ASMALLCONST=0800h-08FFhx120 \
@@ -27,12 +27,12 @@ Machine type is 18F4550
                 Name                               Link     Load   Length Selector   Space Scale
 build/default/production/SecuenciasLed.o
                 config                           300000   300000        E        0       4
-                main_code                          7F52     7F52       AE     3FA9       0
+                main_code                          7F06     7F06       FA     3F83       0
                 udata_acs                             0        0        5        0       1
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
-                main_code                          7F52     7F52       AE         0
+                main_code                          7F06     7F06       FA         0
 
         CLASS   CONST          
 
@@ -81,7 +81,7 @@ TOTAL           Name                               Link     Load   Length     Sp
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class
 
                 udata_acs                      000000  000005  000005         0       1  COMRAM  
-                main_code                      007F52  0000AE  008000      3FA9       0  CODE    
+                main_code                      007F06  0000FA  008000      3F83       0  CODE    
 
 
 UNUSED ADDRESS RANGES
@@ -97,15 +97,15 @@ UNUSED ADDRESS RANGES
         BANK7            000700-0007FF              100
         BIGRAM           000000-0007FF              800
         BIGSFR           000F60-000FFF               A0
-        CODE             000000-007F51             7F52
+        CODE             000000-007F05             7F06
         COMRAM           000005-00005F               5B
-        CONST            000000-007F51             7F52
+        CONST            000000-007F05             7F06
         EEDATA           F00000-F000FF              100
         IDLOC            200000-200007                8
-        MEDIUMCONST      000800-007F51             7752
+        MEDIUMCONST      000800-007F05             7706
         RAM              000060-0007FF              100
         SFR              000F60-000FFF               A0
-        SMALLCONST       000800-007F51              100
+        SMALLCONST       000800-007F05              100
 
                                   Symbol Table
 

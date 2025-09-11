@@ -5476,7 +5476,37 @@ Inicio:
     CLRF SecuenciaActual, A ; Secuencia inicial 0
 
 BuclePrincipal:
-    ; Verificar secuencia actual
+    ; --- DETECCIÓN DE BOTÓN ---
+    MOVF PORTB, W, A
+    ANDLW 0x01 ; Solo bit 0 (((PORTB) and 0FFh), 0, a)
+    MOVWF Temp, A ; Guardar estado actual
+
+    ; Comparar con estado anterior
+    XORWF BotonAnt, W, A
+    BZ NoCambioBoton ; Si no hay cambio, saltar
+
+    ; Hubo cambio?
+    BTFSS Temp, 0, A ; Verificar bit 0 del estado actual
+    GOTO NoCambioBoton
+
+    ; cambiar secuencia
+    INCF SecuenciaActual, F, A
+    MOVLW 3
+    CPFSLT SecuenciaActual, A
+    CLRF SecuenciaActual, A
+
+    ; Indicar cambio con parpadeo rápido
+    MOVLW 0x0F
+    MOVWF LATD, A
+    CALL Retardo_200ms
+    CLRF LATD, A
+    CALL Retardo_200ms
+
+NoCambioBoton:
+    ; Actualizar estado anterior del botón
+    MOVFF Temp, BotonAnt
+
+    ; --- EJECUTAR SECUENCIA ACTUAL ---
     MOVF SecuenciaActual, W, A
     BZ Secuencia1 ; Si es 0, ir a Secuencia1
 
@@ -5537,6 +5567,15 @@ Contar:
     GOTO Contar
     GOTO BuclePrincipal
 
+Retardo_200ms:
+    MOVLW 200
+    MOVWF ContadorExterno, A
+Ret200ms_Loop:
+    CALL Delay_1ms
+    DECFSZ ContadorExterno, F, A
+    GOTO Ret200ms_Loop
+    RETURN
+
 Retardo_1s:
     MOVLW 200
     MOVWF ContadorExterno, A
@@ -5553,6 +5592,17 @@ Loop1:
     GOTO Loop2
     DECFSZ ContadorExterno, F, A
     GOTO Loop3
+    RETURN
+
+Delay_1ms:
+    MOVLW 100
+    MOVWF ContadorInterno, A
+D1ms_Loop:
+    NOP
+    NOP
+    NOP
+    DECFSZ ContadorInterno, F, A
+    GOTO D1ms_Loop
     RETURN
 
     END
