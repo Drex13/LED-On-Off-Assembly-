@@ -31,7 +31,7 @@ Inicio:
     
     BSF TRISB, 0, A      ; RB0 como entrada para botón
     CLRF BotonAnt, A     ; Estado anterior del botón
-    CLRF SecuenciaActual, A 
+    CLRF SecuenciaActual, A ; Secuencia inicial 0
 
 BuclePrincipal:
     ; --- DETECCIÓN DE BOTÓN ---
@@ -76,7 +76,8 @@ NoCambioBoton:
     SUBWF SecuenciaActual, W, A
     BZ Secuencia3        ; Si es 2, ir a Secuencia3
     
-    GOTO Secuencia1      ; Por seguridad, ir a Secuencia1
+    ; Por seguridad, si no es ninguna, ir a Secuencia1
+    GOTO Secuencia1
 
 ; --- SECUENCIA 1: Movimiento 1-2-3-4 ---
 Secuencia1:
@@ -99,7 +100,7 @@ Secuencia1:
     ; PAUSA antes de repetir la secuencia
     CLRF LATD, A         ; Apagar todos los LEDs
     CALL Retardo_1s      ; Pausa de 1 segundo
-    CALL Retardo_1s      ; Otra pausa de 1 segundo
+    CALL Retardo_1s      ; Otra pausa de 1 segundo 
     
     GOTO BuclePrincipal
 
@@ -162,6 +163,7 @@ Secuencia3:
     
     GOTO BuclePrincipal
 
+; --- RUTINAS DE RETARDO ---
 Retardo_200ms:
     MOVLW 200
     MOVWF ContadorExterno, A
@@ -172,21 +174,33 @@ Ret200ms_Loop:
     RETURN
 
 Retardo_1s:
-    MOVLW 200
+    MOVLW 250
     MOVWF ContadorExterno, A
-Loop3:
-    MOVLW 255
-    MOVWF ContadorInterno, A
-Loop2:
-    MOVLW 255
-    MOVWF Temp, A
-Loop1:
-    DECFSZ Temp, F, A
-    GOTO Loop1
-    DECFSZ ContadorInterno, F, A
-    GOTO Loop2
+R1s_Loop1:
+    CALL Delay_1ms
     DECFSZ ContadorExterno, F, A
-    GOTO Loop3
+    GOTO R1s_Loop1
+    
+    MOVLW 250
+    MOVWF ContadorExterno, A
+R1s_Loop2:
+    CALL Delay_1ms
+    DECFSZ ContadorExterno, F, A
+    GOTO R1s_Loop2
+    
+    MOVLW 250
+    MOVWF ContadorExterno, A
+R1s_Loop3:
+    CALL Delay_1ms
+    DECFSZ ContadorExterno, F, A
+    GOTO R1s_Loop3
+    
+    MOVLW 250
+    MOVWF ContadorExterno, A
+R1s_Loop4:
+    CALL Delay_1ms
+    DECFSZ ContadorExterno, F, A
+    GOTO R1s_Loop4
     RETURN
 
 Delay_1ms:
@@ -199,5 +213,5 @@ D1ms_Loop:
     DECFSZ ContadorInterno, F, A
     GOTO D1ms_Loop
     RETURN
-
+    
     END
