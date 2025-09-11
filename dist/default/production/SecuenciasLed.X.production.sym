@@ -1,6 +1,6 @@
 __S0 0 0 ABS 0
 __S1 0 0 ABS 0
-__S3 F000AA 0 ABS 0
+__S3 F000AE 0 ABS 0
 __Hudata_bank4 0 0 ABS 0
 __Ludata_bank4 0 0 ABS 0
 __Hconfig 30000E 0 CONFIG 4
@@ -33,7 +33,7 @@ __Hspace_1 0 0 ABS 0
 __Lspace_1 0 0 ABS 0
 __Hudata_bank7 0 0 ABS 0
 __Ludata_bank7 0 0 ABS 0
-__Hspace_3 F000AA 0 ABS 0
+__Hspace_3 F000AE 0 ABS 0
 __Lspace_3 0 0 ABS 0
 __Hspace_4 60000E 0 ABS 0
 __Lspace_4 0 0 ABS 0
@@ -42,5 +42,5 @@ __Ludata_bank2 0 0 ABS 0
 __Hudata_bank3 0 0 ABS 0
 __Ludata_bank3 0 0 ABS 0
 %segments
-edata F00000 F000A9 EEDATA F00000 3
+edata F00000 F000AD EEDATA F00000 3
 %locals
