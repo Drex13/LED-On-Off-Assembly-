@@ -31,7 +31,7 @@ Inicio:
     
     BSF TRISB, 0, A      ; RB0 como entrada para botón
     CLRF BotonAnt, A     ; Estado anterior del botón
-    CLRF SecuenciaActual, A ; Secuencia inicial 0
+    CLRF SecuenciaActual, A 
 
 BuclePrincipal:
     ; --- DETECCIÓN DE BOTÓN ---
@@ -43,11 +43,11 @@ BuclePrincipal:
     XORWF BotonAnt, W, A
     BZ NoCambioBoton     ; Si no hay cambio, saltar
     
-    ; Hubo cambio? 
+    ; Hubo cambio?
     BTFSS Temp, 0, A     ; Verificar bit 0 del estado actual
     GOTO NoCambioBoton   
     
-    ; cambiar secuencia
+    ; Cambiar secuencia
     INCF SecuenciaActual, F, A
     MOVLW 3
     CPFSLT SecuenciaActual, A
@@ -78,6 +78,7 @@ NoCambioBoton:
     
     GOTO Secuencia1      ; Por seguridad, ir a Secuencia1
 
+; --- SECUENCIA 1: Movimiento 1-2-3-4 ---
 Secuencia1:
     MOVLW 0x01
     MOVWF LATD, A
@@ -95,34 +96,70 @@ Secuencia1:
     MOVWF LATD, A
     CALL Retardo_1s
     
-    CLRF LATD, A
-    CALL Retardo_1s
-    CALL Retardo_1s
+    ; PAUSA antes de repetir la secuencia
+    CLRF LATD, A         ; Apagar todos los LEDs
+    CALL Retardo_1s      ; Pausa de 1 segundo
+    CALL Retardo_1s      ; Otra pausa de 1 segundo
+    
     GOTO BuclePrincipal
 
+; --- SECUENCIA 2: Movimiento 4-3-2-1 ---
 Secuencia2:
-    MOVLW 0x03
-    MOVWF ContadorExterno, A
-Parpadeo:
-    MOVLW 0x0F
+    MOVLW 0x08
     MOVWF LATD, A
     CALL Retardo_1s
-    CLRF LATD, A
+    
+    MOVLW 0x04
+    MOVWF LATD, A
     CALL Retardo_1s
-    DECFSZ ContadorExterno, F, A
-    GOTO Parpadeo
+    
+    MOVLW 0x02
+    MOVWF LATD, A
+    CALL Retardo_1s
+    
+    MOVLW 0x01
+    MOVWF LATD, A
+    CALL Retardo_1s
+    
+    ; PAUSA antes de repetir la secuencia
+    CLRF LATD, A         ; Apagar todos los LEDs
+    CALL Retardo_1s      ; Pausa de 1 segundo
+    CALL Retardo_1s      ; Otra pausa de 1 segundo 
+    
     GOTO BuclePrincipal
 
+; --- SECUENCIA 3: Intermitente alterno ---
 Secuencia3:
-    CLRF ContadorExterno, A
-    MOVLW 16
-Contar:
-    MOVF ContadorExterno, W, A
+    MOVLW 0x09           ; 1001 - LEDs 1 y 4
     MOVWF LATD, A
     CALL Retardo_1s
-    INCF ContadorExterno, F, A
-    DECFSZ WREG, F
-    GOTO Contar
+    
+    MOVLW 0x06           ; 0110 - LEDs 2 y 3
+    MOVWF LATD, A
+    CALL Retardo_1s
+    
+    ; Repetir el parpadeo varias veces antes de pausa
+    MOVLW 0x09
+    MOVWF LATD, A
+    CALL Retardo_1s
+    
+    MOVLW 0x06
+    MOVWF LATD, A
+    CALL Retardo_1s
+    
+    MOVLW 0x09
+    MOVWF LATD, A
+    CALL Retardo_1s
+    
+    MOVLW 0x06
+    MOVWF LATD, A
+    CALL Retardo_1s
+    
+    ; PAUSA antes de repetir la secuencia
+    CLRF LATD, A         ; Apagar todos los LEDs
+    CALL Retardo_1s      ; Pausa de 1 segundo
+    CALL Retardo_1s      ; Otra pausa de 1 segundo 
+    
     GOTO BuclePrincipal
 
 Retardo_200ms:
