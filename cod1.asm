@@ -1,7 +1,7 @@
-; Proyecto: Secuencia de 4 LEDs con 2 modos y botón
+; Proyecto: Secuencia de 4 LEDs con 3 modos y botón
 ; PIC18F4550
 ; LEDs en RC0, RC1, RC2, RC3
-; Botón en RB0 (cambia entre Secuencia 1 y 2)
+; Botón en RB0 (cambia entre Secuencias)
 
         LIST    P=18F4550
         #include <xc.inc>
@@ -54,15 +54,18 @@ BotonCheck:
     MOVF    BotonNow,W
     BZ      NoCambio        ; si es 0, no hacer nada
     INCF    Modo,F
-    MOVLW   2
+    MOVLW   3
     CPFSGT  Modo
-    CLRF    Modo            ; reinicia a 0 si Modo > 1
+    CLRF    Modo            ; reinicia a 0 si Modo > 2
 
 NoCambio:
     ; Ejecutar secuencia según Modo
     MOVF    Modo,W
     BZ      RunSeq1
-    GOTO    RunSeq2
+    MOVLW   1
+    SUBWF   Modo,W
+    BZ      RunSeq2
+    GOTO    RunSeq3
 
 RunSeq1:
     CALL    SECUENCIA1
@@ -70,6 +73,10 @@ RunSeq1:
 
 RunSeq2:
     CALL    SECUENCIA2
+    GOTO    CICLO
+
+RunSeq3:
+    CALL    SECUENCIA3
     GOTO    CICLO
 
 ; -----------------------------------------
@@ -124,6 +131,14 @@ SECUENCIA2:    ; Ida y vuelta
 
     RETURN
 
+SECUENCIA3:    ; Todos los LEDs parpadean
+    MOVLW   B'00001111'   ; Encender RC0..RC3
+    MOVWF   LATC
+    CALL    DELAY1S
+    CLRF    LATC          ; Apagar todos
+    CALL    DELAY1S
+    RETURN
+
 ; -----------------------------------------
 ; SUBRUTINAS DE RETARDO
 ; -----------------------------------------
@@ -139,6 +154,7 @@ L2:     DECFSZ  0x21,F
         DECFSZ  0x20,F
         GOTO    L1
         RETURN
+
 
 
         END
